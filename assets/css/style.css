@@ -3812,7 +3812,7 @@ a.link-unstyled a.link:active {
     font-weight: 400; }
   .post .post-excerpt,
   .post .post-content {
-    font-family: 'Merriweather', serif;
+    font-family: 'Noto Sans', sans-serif;
     color: #5d686f;
     margin-top: 15px;
     font-weight: 300;
