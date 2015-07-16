@@ -5,7 +5,7 @@
   <subtitle><![CDATA[No open flames]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://cosecanttw.github.io//"/>
-  <updated>2015-07-15T03:35:47.000Z</updated>
+  <updated>2015-07-16T05:05:17.000Z</updated>
   <id>http://cosecanttw.github.io//</id>
   
   <author>
@@ -20,13 +20,15 @@
     <link href="http://cosecanttw.github.io/2015/07/15/%E6%B8%AC%E8%A9%A6%E6%96%87%E7%AB%A0.html"/>
     <id>http://cosecanttw.github.io/2015/07/15/測試文章.html</id>
     <published>2015-07-15T03:34:08.000Z</published>
-    <updated>2015-07-15T03:35:47.000Z</updated>
+    <updated>2015-07-16T05:05:17.000Z</updated>
     <content type="html"><![CDATA[<h3 id="這是一篇測試文章">這是一篇測試文章</h3><p>想用github page寫blog很久了，來試試XD</p>
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="這是一篇測試文章">這是一篇測試文章</h3><p>想用github page寫blog很久了，來試試XD</p>
 ]]>
     </summary>
+    
+      <category term="test" scheme="http://cosecanttw.github.io/tags/test/"/>
     
       <category term="測試" scheme="http://cosecanttw.github.io/tags/%E6%B8%AC%E8%A9%A6/"/>
     
