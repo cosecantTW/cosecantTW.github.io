@@ -2248,11 +2248,11 @@ a:hover,
 a:active,
 a:visited {
   cursor: pointer;
-  color: #64b5f6;
+  color: #2D415D;
   text-decoration: none; }
 
 a:hover {
-  color: #64b5f6;
+  color: #2D415D;
   text-decoration: underline; }
 
 table {
@@ -2670,7 +2670,7 @@ blockquote {
   transition: transform 0.25s ease-in-out;
   -webkit-transition: -webkit-transform 0.25s ease-in-out; }
   #sidebar .sidebar-profile {
-    color: #5d686f;
+    color: #0F223D;
     text-align: center;
     padding-top: 18px;
     margin-bottom: 15px; }
@@ -2686,13 +2686,13 @@ blockquote {
       height: 45px;
       line-height: 45px; }
       #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link {
-        color: #5d686f;
+        color: #0F223D;
         display: block;
         height: 100%; }
         #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link:hover,
         #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link:active {
           text-decoration: none;
-          color: #bac1c5; }
+          color: #3272cc; }
     #sidebar ul.sidebar-buttons:first-child {
       margin-top: 5px; }
 
@@ -4033,7 +4033,7 @@ a.tag--small,
   color: #9eabb3 !important; }
 
 .text-color-link {
-  color: #64b5f6 !important; }
+  color: #2D415D !important; }
 
 .tooltip, [data-tooltip] {
   position: relative;
