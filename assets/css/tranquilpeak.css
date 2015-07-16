@@ -528,7 +528,7 @@ blockquote {
       transform: translate3d(75px, 0, 0); } }
 
 #sidebar {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   height: 100%;
   position: fixed;
   top: 0;
@@ -538,7 +538,7 @@ blockquote {
   transition: transform 0.25s ease-in-out;
   -webkit-transition: -webkit-transform 0.25s ease-in-out; }
   #sidebar .sidebar-profile {
-    color: #ebebeb;
+    color: #5d686f;
     text-align: center;
     padding-top: 18px;
     margin-bottom: 15px; }
@@ -554,7 +554,7 @@ blockquote {
       height: 45px;
       line-height: 45px; }
       #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link {
-        color: #ebebeb;
+        color: #5d686f;
         display: block;
         height: 100%; }
         #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link:hover,
