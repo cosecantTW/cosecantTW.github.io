@@ -1,4 +1,5 @@
 @charset "UTF-8";
+@import url(http://fonts.googleapis.com/css?family=Noto+Sans:400,700,400italic,700italic);
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -42,7 +43,7 @@
   src: local("Merriweather Bold Italic"), local("Merriweather-BoldItalic"), url(https://fonts.gstatic.com/s/merriweather/v8/EYh7Vl4ywhowqULgRdYwII1kRdeHIFWYEsp6A2f99b0.ttf) format("truetype"); }
 
 html {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Noto Sans", sans-serif;
   font-size: 62.5%;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
@@ -56,8 +57,8 @@ body {
   margin: 0;
   padding: 0;
   background: white;
-  font-family: "Open Sans", sans-serif;
-  font-size: 1.5rem;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 1.6rem;
   line-height: 1.85em;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: subpixel-antialiased;
@@ -72,7 +73,7 @@ h4,
 h5,
 h6 {
   letter-spacing: -0.04em;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Noto Sans', sans-serif;
   font-weight: 700;
   line-height: 1.45em;
   color: #4a4a4a; }
@@ -88,22 +89,22 @@ h6 {
   margin: 1em 0 0.5em 0; }
 
 h1 {
-  font-size: 2.8rem; }
+  font-size: 3rem; }
 
 h2 {
-  font-size: 2.4rem; }
+  font-size: 2.6rem; }
 
 h3 {
-  font-size: 2rem; }
+  font-size: 2.2rem; }
 
 h4 {
-  font-size: 1.8rem; }
+  font-size: 2rem; }
 
 h5 {
-  font-size: 1.7rem; }
+  font-size: 1.8rem; }
 
 h6 {
-  font-size: 1.6rem; }
+  font-size: 1.7rem; }
 
 p,
 ul,
@@ -148,7 +149,7 @@ dl dd {
 
 code {
   display: inline-block;
-  font-family: 'Open Sans';
+  font-family: 'Noto Sans';
   font-weight: 400;
   border-radius: 3px;
   background: #f5f5f5;
@@ -167,35 +168,35 @@ blockquote {
 
 @media only screen and (max-width: 767px) {
   body {
-    font-size: 1.4rem; }
-  h1 {
-    font-size: 2.6rem; }
-  h2 {
-    font-size: 2.2rem; }
-  h3 {
-    font-size: 1.8rem; }
-  h4 {
-    font-size: 1.6rem; }
-  h5 {
     font-size: 1.5rem; }
+  h1 {
+    font-size: 2.8rem; }
+  h2 {
+    font-size: 2.4rem; }
+  h3 {
+    font-size: 2rem; }
+  h4 {
+    font-size: 1.8rem; }
+  h5 {
+    font-size: 1.6rem; }
   h6 {
-    font-size: 1.4rem; } }
+    font-size: 1.5rem; } }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   body {
-    font-size: 1.45rem; }
-  h1 {
-    font-size: 2.65rem; }
-  h2 {
-    font-size: 2.25rem; }
-  h3 {
-    font-size: 1.85rem; }
-  h4 {
-    font-size: 1.65rem; }
-  h5 {
     font-size: 1.55rem; }
+  h1 {
+    font-size: 2.85rem; }
+  h2 {
+    font-size: 2.45rem; }
+  h3 {
+    font-size: 2.05rem; }
+  h4 {
+    font-size: 1.85rem; }
+  h5 {
+    font-size: 1.65rem; }
   h6 {
-    font-size: 1.45rem; } }
+    font-size: 1.55rem; } }
 
 #about {
   display: none;
@@ -245,7 +246,7 @@ blockquote {
     #about #about-card #about-card-job,
     #about #about-card #about-card-location,
     #about #about-card #about-card-bio {
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       line-height: 1.85em;
       font-weight: 400;
       color: #5d686f; }
@@ -385,7 +386,7 @@ blockquote {
 
 #footer {
   color: #9eabb3;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   text-align: center;
   margin-top: 70px;
   height: 45px; }
@@ -429,7 +430,7 @@ blockquote {
     color: #88909a; }
   #header .header-title {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     line-height: 55px;
     margin: 0; }
     #header .header-title .header-title-link {
@@ -560,7 +561,7 @@ blockquote {
         #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link:hover,
         #sidebar ul.sidebar-buttons li.sidebar-button .sidebar-button-link:active {
           text-decoration: none;
-          color: white; }
+          color: #bac1c5; }
     #sidebar ul.sidebar-buttons:first-child {
       margin-top: 5px; }
 
@@ -598,7 +599,7 @@ blockquote {
           width: auto;
           height: 35px;
           line-height: 35px;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           letter-spacing: 0.3px;
           vertical-align: middle; }
     #sidebar[data-behavior="1"].pushed, #sidebar[data-behavior="3"].pushed {
@@ -707,7 +708,7 @@ blockquote {
           width: auto;
           height: 35px;
           line-height: 35px;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           letter-spacing: 0.3px;
           vertical-align: middle; }
     #sidebar[data-behavior="3"].pushed {
@@ -778,7 +779,7 @@ blockquote {
           width: auto;
           height: 35px;
           line-height: 35px;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           letter-spacing: 0.3px;
           vertical-align: middle; }
     #sidebar[data-behavior="1"].pushed {
@@ -847,7 +848,7 @@ blockquote {
           width: auto;
           height: 35px;
           line-height: 35px;
-          font-size: 1.4rem;
+          font-size: 1.6rem;
           letter-spacing: 0.3px;
           vertical-align: middle; }
     #sidebar[data-behavior="3"].pushed {
@@ -896,7 +897,7 @@ blockquote {
 .archive .archive-posts {
   list-style: none; }
   .archive .archive-posts .archive-post {
-    font-size: 1.4rem; }
+    font-size: 1.6rem; }
     .archive .archive-posts .archive-post .archive-post-title {
       margin-left: 10px;
       color: #5d686f; }
@@ -907,7 +908,7 @@ blockquote {
     .archive .archive-posts .archive-post::before {
       font-family: 'FontAwesome';
       content: '\f0da';
-      font-size: 1.25rem; }
+      font-size: 1.4rem; }
 
 .boxes {
   margin-top: 20px; }
@@ -925,7 +926,7 @@ blockquote {
   padding: 8px 15px;
   margin: 0;
   letter-spacing: 0.01em;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   cursor: pointer; }
   .btn:hover,
   .btn:focus,
@@ -968,16 +969,16 @@ blockquote {
     border: 1px solid #bd1908; }
 
 .btn--medium {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   padding: 8px 15px; }
 
 .btn--small {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   padding: 8px 15px; }
 
 .caption {
   display: block;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   text-align: center;
   font-style: italic; }
 
@@ -1034,12 +1035,12 @@ a.category--danger,
 
 a.category--default,
 .category--default {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   padding: 4.5px 15px; }
 
 a.category--small,
 .category--small {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   padding: 2px 10px; }
 
 .form-control {
@@ -1505,10 +1506,10 @@ figure.highlight {
     position: absolute;
     bottom: 0;
     width: calc(100% - (1.5em) * 2);
-    font-family: 'Open Sans';
+    font-family: 'Noto Sans';
     font-style: italic;
     background: rgba(0, 0, 0, 0.75);
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     color: white;
     padding: 0.5em 1.5em;
     z-index: 1; }
@@ -1620,7 +1621,7 @@ a.link-unstyled a.link:active {
       margin-right: 10px; }
     .pagination-bar .pagination .pagination-number {
       float: right;
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       color: #9eabb3; }
 
 .post-group .post {
@@ -1656,7 +1657,7 @@ a.link-unstyled a.link:active {
         .post .post-header-cover .post-header .post-title:hover {
           text-decoration: none; }
       .post .post-header-cover .post-header .post-meta {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         color: white !important;
         font-weight: 700;
         letter-spacing: 0.05em;
@@ -1675,8 +1676,8 @@ a.link-unstyled a.link:active {
   .post .post-meta,
   .post .post-readingtime,
   .post .post-excerpt_link {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1.25rem;
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 1.4rem;
     font-weight: 400; }
   .post .post-excerpt,
   .post .post-content {
@@ -1707,7 +1708,7 @@ a.link-unstyled a.link:active {
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .post-header-cover .post-header .post-title {
-    font-size: 3rem; } }
+    font-size: 3.2rem; } }
 
 @media only screen and (min-width: 480px) {
   .post.post--thumbnailimg .post-thumbnailimg {
@@ -1725,7 +1726,7 @@ a.link-unstyled a.link:active {
 
 @media only screen and (min-width: 1024px) {
   .post-header-cover .post-header .post-title {
-    font-size: 3.4rem; } }
+    font-size: 3.6rem; } }
 
 .post-actions-wrap {
   height: 60px;
@@ -1826,12 +1827,12 @@ a.tag--danger,
 
 a.tag--default,
 .tag--default {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   padding: 4.5px 15px; }
 
 a.tag--small,
 .tag--small {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   padding: 2px 10px; }
 
 ¬ .text-left {
@@ -1859,22 +1860,22 @@ a.tag--small,
   text-transform: capitalize !important; }
 
 .text-xsmall {
-  font-size: 1rem !important; }
+  font-size: 1.2rem !important; }
 
 .text-small {
-  font-size: 1.25rem !important; }
-
-.text-medium {
   font-size: 1.4rem !important; }
 
-.text-base {
-  font-size: 1.5rem !important; }
-
-.text-large {
+.text-medium {
   font-size: 1.6rem !important; }
 
+.text-base {
+  font-size: 1.6rem !important; }
+
+.text-large {
+  font-size: 1.8rem !important; }
+
 .text-xlarge {
-  font-size: 1.7rem !important; }
+  font-size: 2rem !important; }
 
 .text-strong {
   font-weight: 700 !important; }
