@@ -17,8 +17,8 @@
   
   <entry>
     <title><![CDATA[[測試文章]]]></title>
-    <link href="http://cosecanttw.github.io/2015/07/15/%E6%B8%AC%E8%A9%A6%E6%96%87%E7%AB%A0/"/>
-    <id>http://cosecanttw.github.io/2015/07/15/測試文章/</id>
+    <link href="http://cosecanttw.github.io/2015/07/15/%E6%B8%AC%E8%A9%A6%E6%96%87%E7%AB%A0.html"/>
+    <id>http://cosecanttw.github.io/2015/07/15/測試文章.html</id>
     <published>2015-07-15T03:34:08.000Z</published>
     <updated>2015-07-15T03:35:47.000Z</updated>
     <content type="html"><![CDATA[<h3 id="這是一篇測試文章">這是一篇測試文章</h3><p>想用github page寫blog很久了，來試試XD</p>
@@ -34,8 +34,8 @@
   
   <entry>
     <title><![CDATA[Hello World]]></title>
-    <link href="http://cosecanttw.github.io/2015/07/15/hello-world/"/>
-    <id>http://cosecanttw.github.io/2015/07/15/hello-world/</id>
+    <link href="http://cosecanttw.github.io/2015/07/15/hello-world.html"/>
+    <id>http://cosecanttw.github.io/2015/07/15/hello-world.html</id>
     <published>2015-07-15T03:33:51.000Z</published>
     <updated>2015-07-15T03:13:35.000Z</updated>
     <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
