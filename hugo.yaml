@@ -1,0 +1,7 @@
+baseURL: https://cosecanttw.github.io/
+languageCode: zh-TW
+title: 現在還有人在寫blog嗎！？
+theme: ["hugo-theme-stack"]
+caches:
+  images:
+    dir: :cacheDir/images
