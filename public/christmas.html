@@ -83,11 +83,10 @@
             border: 2px solid #fbbf24;
         }
 
-        .card.disabled .card-front {
-            background-color: #e5e5e5;
-            color: #a3a3a3;
-            border-color: #d4d4d4;
-            cursor: not-allowed;
+        .card.opened .card-front {
+            background-color: #dbeafe;
+            color: #3b82f6;
+            border-color: #93c5fd;
         }
 
         .card-decoration {
@@ -123,8 +122,8 @@
         /* 聖誕樹 */
         .tree-container {
             position: relative;
-            width: 200px;
-            height: 280px;
+            width: 280px;
+            height: 360px;
             margin: 0 auto;
             z-index: 10;
         }
@@ -139,22 +138,22 @@
         }
 
         .layer-1 {
-            bottom: 40px;
-            border-width: 0 100px 120px 100px;
+            bottom: 50px;
+            border-width: 0 140px 160px 140px;
             border-color: transparent transparent #166534 transparent;
             z-index: 10;
         }
 
         .layer-2 {
-            bottom: 120px;
-            border-width: 0 80px 100px 80px;
+            bottom: 160px;
+            border-width: 0 110px 130px 110px;
             border-color: transparent transparent #15803d transparent;
             z-index: 11;
         }
 
         .layer-3 {
-            bottom: 190px;
-            border-width: 0 60px 80px 60px;
+            bottom: 250px;
+            border-width: 0 80px 100px 80px;
             border-color: transparent transparent #16a34a transparent;
             z-index: 12;
         }
@@ -164,8 +163,8 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
-            height: 50px;
+            width: 55px;
+            height: 65px;
             background-color: #78350f;
             z-index: 5;
             border-radius: 4px;
@@ -191,11 +190,35 @@
             }
         }
 
+        .tree-star {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            color: #fbbf24;
+            text-shadow: 0 0 20px #fcd34d;
+            z-index: 25;
+            animation: starShine 2s infinite alternate;
+        }
+
+        @keyframes starShine {
+            0% {
+                text-shadow: 0 0 20px #fcd34d;
+                transform: translateX(-50%) scale(1);
+            }
+
+            100% {
+                text-shadow: 0 0 30px #fcd34d, 0 0 40px #fbbf24;
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+
         /* 聖誕老人 */
         .santa {
             position: absolute;
-            bottom: 0;
-            right: -20px;
+            bottom: 80px;
+            right: -90px;
             width: 120px;
             transition: all 1s ease-in-out;
             transform: translateY(100%);
@@ -229,13 +252,29 @@
         }
 
         .snowman-decor {
-            left: -80px;
-            width: 100px;
+            left: 10%;
+            width: 120px;
         }
 
         .gifts-decor {
-            right: -70px;
-            width: 90px;
+            right: 20%;
+            width: 120px;
+        }
+
+        @media (max-width: 768px) {
+            .scene-decor {
+                display: block !important;
+            }
+
+            .snowman-decor {
+                left: 10%;
+                width: 90px;
+            }
+
+            .gifts-decor {
+                right: 20%;
+                width: 90px;
+            }
         }
 
         /* Modal */
@@ -284,35 +323,12 @@
                 class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full shadow-md transition-all flex items-center text-sm md:text-base">
                 <i class="fas fa-camera mr-2"></i> 保存這份美好
             </button>
-
-            <!-- 模式控制區 -->
-            <div class="flex items-center gap-4 bg-white/60 px-4 py-2 rounded-full border border-yellow-200 shadow-sm">
-                <!-- 測試模式 -->
-                <label class="inline-flex items-center cursor-pointer" title="無視日期限制，想開就開">
-                    <input type="checkbox" id="demoMode" class="sr-only peer">
-                    <div
-                        class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500">
-                    </div>
-                    <span class="ms-2 text-sm font-medium text-gray-700">測試模式</span>
-                </label>
-
-                <div class="w-px h-4 bg-gray-300"></div>
-
-                <!-- 倒數模式 (嚴格) -->
-                <label class="inline-flex items-center cursor-pointer" title="每天只能打開一個新禮物">
-                    <input type="checkbox" id="strictMode" class="sr-only peer">
-                    <div
-                        class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-500">
-                    </div>
-                    <span class="ms-2 text-sm font-medium text-gray-700">倒數模式 (一天限開一個)</span>
-                </label>
-            </div>
         </div>
     </header>
 
     <!-- 月曆網格區 -->
-    <main class="container mx-auto px-4 max-w-4xl">
-        <div id="calendar-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 md:gap-4 mb-12">
+    <main class="container mx-auto px-4 max-w-5xl">
+        <div id="calendar-grid" class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 gap-3 md:gap-4 mb-12">
             <!-- JS will inject cards here -->
         </div>
 
@@ -321,9 +337,9 @@
             class="relative mt-12 mb-12 text-center bg-white/60 p-8 rounded-3xl shadow-xl border-4 border-yellow-200 max-w-2xl mx-auto overflow-visible">
             <h2 class="text-3xl font-bold text-green-800 mb-6">🎄 我的許願聖誕樹 🎄</h2>
 
-            <div class="relative flex justify-center items-end h-[300px] mb-8">
+            <div class="relative flex justify-center items-end h-[400px] mb-8">
                 <!-- 雪人裝飾 -->
-                <div class="scene-decor snowman-decor hidden md:block">
+                <div class="scene-decor snowman-decor">
                     <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="50" cy="90" r="30" fill="white" stroke="#e5e7eb" stroke-width="2" />
                         <circle cx="50" cy="50" r="22" fill="white" stroke="#e5e7eb" stroke-width="2" />
@@ -364,7 +380,7 @@
                 </div>
 
                 <!-- 禮物盒裝飾 -->
-                <div class="scene-decor gifts-decor hidden md:block">
+                <div class="scene-decor gifts-decor">
                     <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="10" y="40" width="40" height="40" fill="#ef4444" stroke="#991b1b" stroke-width="2" />
                         <path d="M30 40V80M10 60H50" stroke="#fcd34d" stroke-width="4" />
@@ -375,7 +391,7 @@
             </div>
 
             <p id="tree-status" class="mt-2 text-gray-700 font-medium">已收集裝飾: <span id="ornament-count"
-                    class="text-red-600 font-bold text-xl">0</span>/25</p>
+                    class="text-red-600 font-bold text-xl">0</span>/31</p>
 
             <!-- 許願池 -->
             <div class="mt-8 pt-6 border-t-2 border-yellow-100">
@@ -473,7 +489,7 @@
             { day: 1, type: 'quote', title: '期待的開始', content: '「聖誕節揮舞著魔杖，這世界的一切都變得溫柔了些。」' },
             { day: 2, type: 'book', title: '繪本推薦：好忙好忙的聖誕老公公', content: '這本書描繪了聖誕老公公在聖誕夜前夕忙碌準備禮物的有趣過程，充滿細節和溫馨的畫面。', link: 'https://www.google.com/search?q=%E5%A5%BD%E5%BF%99%E5%A5%BD%E5%BF%99%E7%9A%84%E8%81%96%E8%AA%95%E8%80%81%E5%85%AC%E5%85%AC+%E7%B9%AA%E6%9C%AC' },
             { day: 3, type: 'song', title: '經典旋律', content: 'Jingle Bells (爵士版) - 感受輕鬆愉快的節日氛圍。', link: 'https://www.youtube.com/results?search_query=jingle+bells+jazz' },
-            { day: 4, type: 'riddle', title: '聖誕謎語猜猜看 (1)', content: '牠跑得快、拉雪橇，住在北國不怕冷；有首歌讓牠鼻子亮，你知道牠叫什麼名字？', answer: '魯道夫 (馴鹿)' },
+            { day: 4, type: 'riddle', title: '聖誕謎語猜猜看 (1)', content: '牠跑得快、拉雪橇，住在北國不怕冷；有首歌說牠鼻子亮，你知道牠叫什麼名字？', answer: '魯道夫 (馴鹿)' },
             { day: 5, type: 'fact', title: '聖誕老人原型', content: '聖誕老人的原型是西元 270 年的聖尼古拉 (Saint Nicholas) 主教。他以慷慨、暗中送禮和幫助貧困家庭而聞名。' },
             { day: 6, type: 'quote', title: '給你的鼓勵', content: '在這個季節，記得善待自己，你比想像中更棒。' },
             { day: 7, type: 'video', title: '聖誕節由來動畫', content: '一起來看看聖誕節的起源故事吧！', link: 'https://www.youtube.com/results?search_query=%E8%81%96%E8%AA%95%E7%AF%80%E7%94%B1%E4%BE%86+%E5%8B%95%E7%95%AB' },
@@ -481,7 +497,7 @@
             { day: 9, type: 'book', title: '繪本推薦：一個不能沒有禮物的日子', content: '小熊的爸爸失業了，今年聖誕節可能沒有禮物。但他們發現，原來愛和陪伴才是最珍貴的禮物。', link: 'https://www.google.com/search?q=%E4%B8%80%E5%80%8B%E4%B8%8D%E8%83%BD%E6%B2%92%E6%9C%89%E7%A6%AE%E7%89%A9%E7%9A%84%E6%97%A5%E5%AD%90+%E7%B9%AA%E6%9C%AC' },
             { day: 10, type: 'song', title: '歡樂頌', content: 'All I Want for Christmas Is You - 聖誕節必聽的經典金曲！', link: 'https://www.youtube.com/results?search_query=all+i+want+for+christmas+is+you' },
             { day: 11, type: 'quote', title: '分享愛', content: '愛是唯一越分享越多的東西。' },
-            { day: 12, type: 'riddle', title: '聖誕謎語猜猜看 (2)', content: '什麼東西有身體沒有頭，有袖子沒有手，聖誕節時會掛在壁爐口？', answer: '聖誕襪' },
+            { day: 12, type: 'riddle', title: '聖誕謎語猜猜看 (2)', content: '我站在廣場中央，卻從不穿鞋。我的身上帶著許多球，但從不喜歡運動。我是什麼？', answer: '聖誕樹' },
             { day: 13, type: 'song', title: '寧靜之夜', content: 'Silent Night - 享受片刻的寧靜與祥和。', link: 'https://www.youtube.com/results?search_query=silent+night' },
             { day: 14, type: 'quote', title: '堅持', content: '就像聖誕樹在冬天依然常青，你的堅韌也是如此美麗。' },
             { day: 15, type: 'fact', title: 'Xmas 的由來', content: 'Xmas 的 X 代表希臘字母 Chi，是基督 (Christ) 的縮寫，這是一個古老的傳統寫法。' },
@@ -493,12 +509,17 @@
             { day: 21, type: 'fact', title: '薑餅人歷史', content: '伊麗莎白一世女王是第一個讓薑餅變成人物形狀的人，用來送給賓客。' },
             { day: 22, type: 'song', title: '搖滾聖誕', content: 'Jingle Bell Rock - 一起來搖滾一下！', link: 'https://www.youtube.com/results?search_query=jingle+bell+rock' },
             { day: 23, type: 'quote', title: '平靜', content: '願這個節日帶給你內心深處的平靜與喜悅。' },
-            { day: 24, type: 'quote', title: '平安夜', content: '今晚，只要有愛的人在身邊，就是最棒的聖誕節。' },
-            { day: 25, type: 'special', title: '🎄 聖誕快樂！ 🎄', content: 'Ho Ho Ho! 恭喜你完成了倒數！願你的每一個願望都成真，聖誕快樂！' }
+            { day: 24, type: 'book', title: '書籍推薦：北極特快車 (The Polar Express)', content: '透過小男孩在聖誕夜的奇遇，闡述相信的力量。只要堅信夢想，生命就有可能出現奇蹟，屬於你的銀鈴聲就會永遠為你而響。', link: 'https://www.google.com/search?q=%E5%8C%97%E6%A5%B5%E7%89%B9%E5%BF%AB%E8%BB%8A(%E7%B9%AA%E6%9C%AC)' },
+            { day: 25, type: 'video', title: '聖誕景色', content: '一起欣賞世界各地的聖誕燈飾與雪景，感受濃濃節慶氣氛。', link: 'https://www.youtube.com/results?search_query=christmas+lights+around+the+world' },
+            { day: 26, type: 'fact', title: '聖誕紅的秘密', content: '「一品紅」因為在冬季盛開、紅色象徵節慶，成為聖誕的代表植物，象徵希望與溫暖。它原產於墨西哥，其英語俗名「Poinsettia」源於第一任美國駐墨西哥大使Joel Roberts Poinsett在1828年將其引進美國。' },
+            { day: 27, type: 'book', title: '書籍推薦：聖誕男孩', content: '麥特·海格筆下的尼可拉斯踏上一段尋找父親的旅程，在奇幻與希望中，逐漸成為傳說中的聖誕老人。', link: 'https://www.google.com/search?q=%E8%81%96%E8%AA%95%E7%94%B7%E5%AD%A9+%E9%BA%A5%E7%89%B9%E6%B5%B7%E6%A0%BC' },
+            { day: 28, type: 'song', title: '冬日浪漫', content: 'Let It Snow! Let It Snow! Let It Snow! — 聽著歌讓冬夜更有暖意。', link: 'https://www.youtube.com/results?search_query=let+it+snow' },
+            { day: 29, type: 'riddle', title: '聖誕謎語猜猜看 (3)', content: '誰沒有機師執照卻能起飛降落，闖進陌生人家中卻總是受到歡迎？', answer: '聖誕老人' },
+            { day: 30, type: 'quote', title: '迎向新年', content: '願你帶著這個月的祝福、笑容與勇氣，邁向美好的新開始。' },
+            { day: 31, type: 'special', title: '🎄 聖誕快樂！ 🎄', content: 'Ho Ho Ho! 恭喜你完成了倒數！願你的每一個願望都成真，聖誕快樂！' }
         ];
 
-        let realOpenedDays = JSON.parse(localStorage.getItem('openedDays')) || [];
-        let testOpenedDays = JSON.parse(localStorage.getItem('testOpenedDays')) || [];
+        let openedDays = JSON.parse(localStorage.getItem('openedDays')) || [];
         let wishes = JSON.parse(localStorage.getItem('wishes')) || [];
 
         // 刪除相關變數
@@ -507,8 +528,6 @@
         const grid = document.getElementById('calendar-grid');
         const modal = document.getElementById('gift-modal');
         const confirmModal = document.getElementById('confirm-modal');
-        const demoCheckbox = document.getElementById('demoMode');
-        const strictCheckbox = document.getElementById('strictMode');
         const wishInput = document.getElementById('wish-input');
         const wishList = document.getElementById('wish-list');
         const loadingMask = document.getElementById('loading-mask');
@@ -529,18 +548,12 @@
             renderTree();
             checkSanta();
             renderWishes();
+            addWishStarsFromStorage();
         }
 
         // 判斷某一天是否已開啟
         function isDayOpened(day) {
-            const isDemo = demoCheckbox.checked;
-            if (isDemo) {
-                // 測試模式：顯示 真實+測試
-                return realOpenedDays.includes(day) || testOpenedDays.includes(day);
-            } else {
-                // 正常/倒數模式：只顯示 真實
-                return realOpenedDays.includes(day);
-            }
+            return openedDays.includes(day);
         }
 
         function renderGrid() {
@@ -563,7 +576,7 @@
                 front.innerHTML = `
                     <i class="fas ${deco.icon} card-decoration ${decoPos} ${deco.color} opacity-20 group-hover:opacity-40 transition-opacity"></i>
                     <span class="text-3xl font-bold text-red-500 group-hover:scale-110 transition-transform z-10">${day}</span>
-                    ${day === 25 ? '<i class="fas fa-star text-yellow-400 mt-1 z-10"></i>' : ''}
+                    ${day === 31 ? '<i class="fas fa-star text-yellow-400 mt-1 z-10"></i>' : ''}
                 `;
 
                 const back = document.createElement('div');
@@ -575,7 +588,7 @@
                 if (item.type === 'book') iconClass = 'fa-book-open';
                 if (item.type === 'video') iconClass = 'fa-video';
                 if (item.type === 'riddle') iconClass = 'fa-question-circle';
-                if (day === 25) iconClass = 'fa-sleigh';
+                if (day === 31) iconClass = 'fa-sleigh';
                 back.innerHTML = `<i class="fas ${iconClass} text-3xl text-red-500"></i>`;
 
                 card.appendChild(front);
@@ -584,82 +597,24 @@
                 cardWrapper.addEventListener('click', () => handleCardClick(item, card));
                 grid.appendChild(cardWrapper);
             });
-            updateLockedStates();
-        }
-
-        function updateLockedStates() {
-            const isDemo = demoCheckbox.checked;
-            const actualMonth = new Date().getMonth() + 1;
-            const actualDay = new Date().getDate();
-
-            adventData.forEach(item => {
-                const card = document.getElementById(`day-${item.day}`);
-                if (!card) return;
-
-                const isDateValid = (actualMonth === 12 && actualDay >= item.day);
-                const isUnlockable = isDemo || isDateValid;
-
-                if (!isUnlockable && !isDayOpened(item.day)) {
-                    card.classList.add('disabled');
-                } else {
-                    card.classList.remove('disabled');
-                }
-            });
         }
 
         function handleCardClick(item, cardElement) {
-            const isDemo = demoCheckbox.checked;
-            const isStrict = strictCheckbox.checked;
-            const actualMonth = new Date().getMonth() + 1;
-            const actualDay = new Date().getDate();
             const isOpenedAlready = isDayOpened(item.day);
 
-            // 1. 日期檢查
-            const isDateValid = (actualMonth === 12 && actualDay >= item.day);
-            const isUnlockable = isDemo || isDateValid;
-
-            if (!isUnlockable && !isOpenedAlready) {
-                shakeCard(cardElement);
-                alert("還沒到這一天喔！請耐心等待，或者開啟上方的「測試模式」來預覽。");
+            // 如果已經開過，顯示訊息
+            if (isOpenedAlready) {
+                alert("這個禮物已經打開過了喔！");
                 return;
             }
 
-            // 2. 嚴格模式檢查
-            if (isStrict && !isDemo && !isOpenedAlready) {
-                const lastOpen = localStorage.getItem('lastOpenDate');
-                const todayStr = new Date().toDateString();
-
-                if (lastOpen === todayStr) {
-                    shakeCard(cardElement);
-                    alert("每天只能打開一個驚喜喔！貪多嚼不爛～明天再來吧！🎁");
-                    return;
-                }
-            }
-
-            // 3. 開啟
+            // 開啟禮物
             openModal(item);
-
-            if (!isOpenedAlready) {
-                if (isDemo) {
-                    testOpenedDays.push(item.day);
-                    localStorage.setItem('testOpenedDays', JSON.stringify(testOpenedDays));
-                } else {
-                    realOpenedDays.push(item.day);
-                    localStorage.setItem('openedDays', JSON.stringify(realOpenedDays));
-
-                    if (isStrict) {
-                        localStorage.setItem('lastOpenDate', new Date().toDateString());
-                    }
-                }
-                cardElement.classList.add('opened');
-                addOrnamentToTree();
-                checkSanta();
-            }
-        }
-
-        function shakeCard(card) {
-            card.parentElement.classList.add('animate-pulse');
-            setTimeout(() => card.parentElement.classList.remove('animate-pulse'), 500);
+            openedDays.push(item.day);
+            localStorage.setItem('openedDays', JSON.stringify(openedDays));
+            cardElement.classList.add('opened');
+            addOrnamentToTree();
+            checkSanta();
         }
 
         function openModal(item) {
@@ -687,7 +642,7 @@
                 iconHtml = '<i class="fas fa-heart text-pink-500"></i>';
             } else if (item.type === 'fact') {
                 iconHtml = '<i class="fas fa-lightbulb text-yellow-500"></i>';
-            } else if (item.day === 25) {
+            } else if (item.day === 31) {
                 iconHtml = '<i class="fas fa-sleigh text-red-600"></i>';
             } else if (item.type === 'book') {
                 iconHtml = '<i class="fas fa-book text-green-600"></i>';
@@ -742,6 +697,14 @@
             }
         }
 
+        // 重新繪製許願星星
+        function addWishStarsFromStorage() {
+            const wishCount = wishes.length;
+            for (let i = 0; i < wishCount; i++) {
+                createOrnament(true, true); // true for golden star, true for skip animation
+            }
+        }
+
         // 觸發刪除確認 (綁定在垃圾桶按鈕)
         window.promptDeleteWish = function (index) {
             deleteTargetIndex = index;
@@ -782,42 +745,82 @@
         }
 
         function addOrnamentToTree(isGoldenStar = false) {
-            createOrnament(isGoldenStar);
+            createOrnament(isGoldenStar, false);
             // 更新計數
             const currentOpenedCount = document.querySelectorAll('.card.opened').length;
             document.getElementById('ornament-count').innerText = currentOpenedCount;
         }
 
-        function createOrnament(isGoldenStar = false) {
+        function createOrnament(isGoldenStar = false, skipAnimation = false) {
             const container = document.getElementById('tree-container');
             const ornament = document.createElement('div');
+
             if (isGoldenStar) {
                 ornament.className = 'ornament fa fa-star text-yellow-300 text-lg';
                 ornament.style.backgroundColor = 'transparent';
                 ornament.style.boxShadow = 'none';
                 ornament.style.textShadow = '0 0 5px #fcd34d';
             } else {
-                ornament.className = 'ornament';
-                const colors = ['#ef4444', '#eab308', '#3b82f6', '#a855f7', '#ec4899', '#ffffff'];
-                ornament.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                // 随機選擇裝飾類型
+                const ornamentTypes = ['circle', 'heart', 'bell'];
+                const type = ornamentTypes[Math.floor(Math.random() * ornamentTypes.length)];
+
+                if (type === 'circle') {
+                    ornament.className = 'ornament';
+                    const colors = ['#ef4444', '#eab308', '#3b82f6', '#a855f7', '#ec4899', '#ffffff'];
+                    ornament.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                } else if (type === 'heart') {
+                    ornament.className = 'ornament fa fa-heart text-lg';
+                    const colors = ['text-red-500', 'text-pink-500', 'text-red-400'];
+                    ornament.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+                    ornament.style.backgroundColor = 'transparent';
+                    ornament.style.boxShadow = 'none';
+                } else { // bell
+                    ornament.className = 'ornament fa fa-bell text-lg';
+                    const colors = ['text-yellow-400', 'text-yellow-500', 'text-amber-400'];
+                    ornament.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+                    ornament.style.backgroundColor = 'transparent';
+                    ornament.style.boxShadow = 'none';
+                }
             }
-            const treeHeight = 230;
-            const treeWidthBase = 160;
+
+            const treeHeight = 300;
+            const treeWidthBase = 220;
             const yPos = Math.random() * (treeHeight - 20) + 10;
             const maxHalfWidth = (treeWidthBase / 2) * (1 - yPos / treeHeight);
             const xOffset = (Math.random() * 2 - 1) * maxHalfWidth;
-            ornament.style.bottom = (yPos + 40) + 'px';
+            ornament.style.bottom = (yPos + 50) + 'px';
             ornament.style.left = `calc(50% + ${xOffset}px)`;
+
+            if (skipAnimation) {
+                ornament.style.animation = 'none';
+            }
+
             container.appendChild(ornament);
         }
 
         function checkSanta() {
-            const is25Opened = isDayOpened(25);
-            if (is25Opened) {
+            const allOpened = openedDays.length === 31;
+            const container = document.getElementById('tree-container');
+            const existingStar = container.querySelector('.tree-star');
+
+            if (allOpened) {
                 document.getElementById('santa-claus').classList.add('show');
                 createSnow();
+
+                // 添加大星星在樹頂
+                if (!existingStar) {
+                    const bigStar = document.createElement('div');
+                    bigStar.className = 'tree-star';
+                    bigStar.innerHTML = '⭐';
+                    container.appendChild(bigStar);
+                }
             } else {
                 document.getElementById('santa-claus').classList.remove('show');
+                // 移除大星星
+                if (existingStar) {
+                    existingStar.remove();
+                }
             }
         }
 
@@ -853,21 +856,6 @@
                 loadingMask.classList.add('hidden');
             });
         }
-
-        // 事件監聽
-        demoCheckbox.addEventListener('change', () => {
-            if (demoCheckbox.checked) strictCheckbox.checked = false;
-            renderGrid();
-            renderTree();
-            checkSanta();
-        });
-
-        strictCheckbox.addEventListener('change', () => {
-            if (strictCheckbox.checked) demoCheckbox.checked = false;
-            renderGrid();
-            renderTree();
-            checkSanta();
-        });
 
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeConfirmModal(); });
