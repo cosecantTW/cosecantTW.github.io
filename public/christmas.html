@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溫馨聖誕倒數月曆</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(135deg, #fdfbf7 0%, #faeecd 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 飄雪特效 */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            text-shadow: 0 0 5px #000;
+            animation: fall linear forwards;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh);
+            }
+        }
+
+        /* 卡片特效 */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .card.opened .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-front {
+            background-color: #fff;
+            color: #b45309;
+            border: 2px solid #fcd34d;
+            position: relative;
+        }
+
+        .card-back {
+            background-color: #fef3c7;
+            color: #92400e;
+            transform: rotateY(180deg);
+            border: 2px solid #fbbf24;
+        }
+
+        .card.disabled .card-front {
+            background-color: #e5e5e5;
+            color: #a3a3a3;
+            border-color: #d4d4d4;
+            cursor: not-allowed;
+        }
+
+        .card-decoration {
+            position: absolute;
+            font-size: 1.2rem;
+            color: #fbbf24;
+        }
+
+        .deco-tl {
+            top: 5px;
+            left: 5px;
+            transform: rotate(-15deg);
+        }
+
+        .deco-tr {
+            top: 5px;
+            right: 5px;
+            transform: rotate(15deg);
+        }
+
+        .deco-bl {
+            bottom: 5px;
+            left: 5px;
+            transform: rotate(15deg);
+        }
+
+        .deco-br {
+            bottom: 5px;
+            right: 5px;
+            transform: rotate(-15deg);
+        }
+
+        /* 聖誕樹 */
+        .tree-container {
+            position: relative;
+            width: 200px;
+            height: 280px;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .tree-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .layer-1 {
+            bottom: 40px;
+            border-width: 0 100px 120px 100px;
+            border-color: transparent transparent #166534 transparent;
+            z-index: 10;
+        }
+
+        .layer-2 {
+            bottom: 120px;
+            border-width: 0 80px 100px 80px;
+            border-color: transparent transparent #15803d transparent;
+            z-index: 11;
+        }
+
+        .layer-3 {
+            bottom: 190px;
+            border-width: 0 60px 80px 60px;
+            border-color: transparent transparent #16a34a transparent;
+            z-index: 12;
+        }
+
+        .trunk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 50px;
+            background-color: #78350f;
+            z-index: 5;
+            border-radius: 4px;
+        }
+
+        .ornament {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            z-index: 20;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* 聖誕老人 */
+        .santa {
+            position: absolute;
+            bottom: 0;
+            right: -20px;
+            width: 120px;
+            transition: all 1s ease-in-out;
+            transform: translateY(100%);
+            opacity: 0;
+            z-index: 30;
+        }
+
+        .santa.show {
+            transform: translateY(0);
+            opacity: 1;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 場景裝飾 */
+        .scene-decor {
+            position: absolute;
+            bottom: 0;
+            z-index: 5;
+        }
+
+        .snowman-decor {
+            left: -80px;
+            width: 100px;
+        }
+
+        .gifts-decor {
+            right: -70px;
+            width: 90px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        /* 按鈕互動樣式 */
+        .delete-btn {
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+            color: #ef4444;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            color: #92400e;
+            font-size: 0.9rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body class="pb-10" id="capture-area">
+
+    <!-- 標題區 -->
+    <header class="text-center pt-8 pb-4 px-4">
+        <h1 class="text-3xl md:text-5xl font-bold text-red-700 mb-2 drop-shadow-sm">
+            <i class="fas fa-sleigh mr-2"></i> 2025 聖誕倒數
+        </h1>
+        <p class="text-yellow-700 text-lg">每一天，都有一份溫暖的小禮物</p>
+
+        <!-- 工具列 -->
+        <div class="mt-4 flex flex-wrap justify-center items-center gap-3 md:gap-6 no-print"
+            data-html2canvas-ignore="true">
+            <button onclick="captureScreenshot()"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full shadow-md transition-all flex items-center text-sm md:text-base">
+                <i class="fas fa-camera mr-2"></i> 保存這份美好
+            </button>
+
+            <!-- 模式控制區 -->
+            <div class="flex items-center gap-4 bg-white/60 px-4 py-2 rounded-full border border-yellow-200 shadow-sm">
+                <!-- 測試模式 -->
+                <label class="inline-flex items-center cursor-pointer" title="無視日期限制，想開就開">
+                    <input type="checkbox" id="demoMode" class="sr-only peer">
+                    <div
+                        class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500">
+                    </div>
+                    <span class="ms-2 text-sm font-medium text-gray-700">測試模式</span>
+                </label>
+
+                <div class="w-px h-4 bg-gray-300"></div>
+
+                <!-- 倒數模式 (嚴格) -->
+                <label class="inline-flex items-center cursor-pointer" title="每天只能打開一個新禮物">
+                    <input type="checkbox" id="strictMode" class="sr-only peer">
+                    <div
+                        class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-red-500">
+                    </div>
+                    <span class="ms-2 text-sm font-medium text-gray-700">倒數模式 (一天限開一個)</span>
+                </label>
+            </div>
+        </div>
+    </header>
+
+    <!-- 月曆網格區 -->
+    <main class="container mx-auto px-4 max-w-4xl">
+        <div id="calendar-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 md:gap-4 mb-12">
+            <!-- JS will inject cards here -->
+        </div>
+
+        <!-- 互動聖誕樹區 -->
+        <div
+            class="relative mt-12 mb-12 text-center bg-white/60 p-8 rounded-3xl shadow-xl border-4 border-yellow-200 max-w-2xl mx-auto overflow-visible">
+            <h2 class="text-3xl font-bold text-green-800 mb-6">🎄 我的許願聖誕樹 🎄</h2>
+
+            <div class="relative flex justify-center items-end h-[300px] mb-8">
+                <!-- 雪人裝飾 -->
+                <div class="scene-decor snowman-decor hidden md:block">
+                    <svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="90" r="30" fill="white" stroke="#e5e7eb" stroke-width="2" />
+                        <circle cx="50" cy="50" r="22" fill="white" stroke="#e5e7eb" stroke-width="2" />
+                        <circle cx="42" cy="45" r="2" fill="#1f2937" />
+                        <circle cx="58" cy="45" r="2" fill="#1f2937" />
+                        <path d="M50 55L55 60L50 65" stroke="#ef4444" stroke-width="2" stroke-linecap="round" />
+                        <path d="M35 70H65" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" />
+                        <rect x="40" y="20" width="20" height="15" fill="#1f2937" />
+                        <rect x="35" y="35" width="30" height="5" fill="#1f2937" />
+                    </svg>
+                </div>
+
+                <!-- 聖誕樹本體 -->
+                <div class="tree-container" id="tree-container">
+                    <div class="tree-layer layer-3"></div>
+                    <div class="tree-layer layer-2"></div>
+                    <div class="tree-layer layer-1"></div>
+                    <div class="trunk"></div>
+                    <!-- Santa will appear here -->
+                    <div id="santa-claus" class="santa">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                            class="w-full h-full drop-shadow-xl">
+                            <circle cx="12" cy="12" r="11" fill="#fee2e2" />
+                            <path d="M2 12C2 6 6 2 12 2C16 2 22 6 22 12" fill="#ef4444" />
+                            <circle cx="2" cy="12" r="2" fill="white" />
+                            <path d="M6 12C6 12 8 16 12 16C16 16 18 12 18 12" stroke="#fca5a5" stroke-width="2"
+                                stroke-linecap="round" />
+                            <path d="M4 14C4 18 7 22 12 22C17 22 20 18 20 14" fill="white" stroke="#e5e7eb"
+                                stroke-width="2" />
+                            <circle cx="9" cy="11" r="1" fill="#1f2937" />
+                            <circle cx="15" cy="11" r="1" fill="#1f2937" />
+                        </svg>
+                        <div
+                            class="absolute -bottom-2 w-full text-center bg-white px-2 py-1 rounded-full text-xs font-bold text-red-600 shadow border border-red-200">
+                            Merry Christmas!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 禮物盒裝飾 -->
+                <div class="scene-decor gifts-decor hidden md:block">
+                    <svg viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="10" y="40" width="40" height="40" fill="#ef4444" stroke="#991b1b" stroke-width="2" />
+                        <path d="M30 40V80M10 60H50" stroke="#fcd34d" stroke-width="4" />
+                        <rect x="60" y="50" width="30" height="30" fill="#22c55e" stroke="#166534" stroke-width="2" />
+                        <path d="M75 50V80M60 65H90" stroke="#fcd34d" stroke-width="4" />
+                    </svg>
+                </div>
+            </div>
+
+            <p id="tree-status" class="mt-2 text-gray-700 font-medium">已收集裝飾: <span id="ornament-count"
+                    class="text-red-600 font-bold text-xl">0</span>/25</p>
+
+            <!-- 許願池 -->
+            <div class="mt-8 pt-6 border-t-2 border-yellow-100">
+                <h3 class="text-xl font-bold text-yellow-700 mb-3"><i class="fas fa-star mr-2"></i>許下你的心願</h3>
+                <div class="flex gap-2 justify-center mb-4 no-print" data-html2canvas-ignore="true">
+                    <input type="text" id="wish-input" placeholder="在此輸入你的聖誕願望..."
+                        class="border-2 border-yellow-300 rounded-full px-4 py-2 w-full max-w-xs focus:outline-none focus:border-yellow-500 bg-white/80">
+                    <button onclick="addWish()"
+                        class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full transition-colors shadow-md whitespace-nowrap">
+                        <i class="fas fa-paper-plane mr-1"></i> 許願
+                    </button>
+                </div>
+                <ul id="wish-list"
+                    class="text-left text-gray-700 max-w-sm mx-auto space-y-2 max-h-40 overflow-y-auto px-2">
+                    <!-- Wishes will be added here -->
+                </ul>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>陳佳釧老師設計 <i class="fas fa-heart text-red-500"></i></p>
+    </footer>
+
+    <!-- 禮物彈出視窗 -->
+    <div id="gift-modal"
+        class="fixed inset-0 z-50 hidden flex items-center justify-center modal-overlay opacity-0 transition-opacity duration-300 px-4"
+        data-html2canvas-ignore="true">
+        <div
+            class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full mx-auto shadow-2xl transform scale-95 transition-transform duration-300 border-4 border-yellow-200 relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 text-2xl"><i
+                    class="fas fa-times"></i></button>
+            <div class="text-center">
+                <div id="modal-icon" class="text-6xl mb-4 text-red-500 animate-bounce"></div>
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800 mb-3"></h3>
+                <div id="modal-content" class="text-gray-600 text-lg leading-relaxed mb-6 font-medium"></div>
+                <div id="book-content" class="hidden mb-6">
+                    <p class="text-gray-600 mb-4 font-medium" id="book-desc"></p>
+                    <a id="book-link" href="#" target="_blank"
+                        class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md"><i
+                            class="fas fa-book-open mr-2"></i> 找找看這本書</a>
+                </div>
+                <div id="riddle-content" class="hidden mb-6">
+                    <p class="text-gray-700 text-xl font-bold mb-4" id="riddle-question"></p>
+                    <button onclick="toggleAnswer()"
+                        class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-2 px-6 rounded-full transition-colors shadow-sm mb-4"><i
+                            class="fas fa-eye mr-2"></i> 看答案</button>
+                    <div id="riddle-answer"
+                        class="hidden bg-yellow-100 p-4 rounded-xl text-red-600 font-bold text-xl border-2 border-yellow-300">
+                    </div>
+                </div>
+                <div id="modal-action" class="hidden">
+                    <a href="#" target="_blank"
+                        class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full transition-colors shadow-md"><i
+                            class="fas fa-play-circle mr-2"></i> 前往觀看</a>
+                </div>
+                <div class="mt-6 pt-4 border-t border-gray-100">
+                    <p class="text-sm text-yellow-600"><i class="fas fa-tree mr-1"></i> 樹上多了一顆裝飾品囉！</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 刪除確認視窗 (NEW) -->
+    <div id="confirm-modal"
+        class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm"
+        data-html2canvas-ignore="true">
+        <div
+            class="bg-white rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl border-4 border-red-100 text-center transform scale-100 transition-all">
+            <div class="text-5xl text-red-400 mb-4"><i class="fas fa-trash-alt"></i></div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">確定要刪除願望嗎？</h3>
+            <p class="text-gray-500 mb-6 text-sm">刪除後就找不回來囉！</p>
+            <div class="flex justify-center gap-3">
+                <button onclick="closeConfirmModal()"
+                    class="px-5 py-2 bg-gray-100 rounded-full hover:bg-gray-200 font-bold text-gray-600 transition-colors">保留</button>
+                <button onclick="executeDelete()"
+                    class="px-5 py-2 bg-red-500 rounded-full hover:bg-red-600 font-bold text-white transition-colors shadow-md">是的，刪除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 載入遮罩 (加入 ignore 屬性) -->
+    <div id="loading-mask"
+        class="fixed inset-0 z-[60] hidden flex items-center justify-center bg-black/50 backdrop-blur-sm"
+        data-html2canvas-ignore="true">
+        <div class="bg-white p-4 rounded-xl flex items-center shadow-2xl">
+            <i class="fas fa-spinner fa-spin text-red-500 text-2xl mr-3"></i>
+            <span class="font-bold text-gray-700">正在製作您的聖誕卡片...</span>
+        </div>
+    </div>
+
+    <script>
+        const adventData = [
+            { day: 1, type: 'quote', title: '期待的開始', content: '「聖誕節揮舞著魔杖，這世界的一切都變得溫柔了些。」' },
+            { day: 2, type: 'book', title: '繪本推薦：好忙好忙的聖誕老公公', content: '這本書描繪了聖誕老公公在聖誕夜前夕忙碌準備禮物的有趣過程，充滿細節和溫馨的畫面。', link: 'https://www.google.com/search?q=%E5%A5%BD%E5%BF%99%E5%A5%BD%E5%BF%99%E7%9A%84%E8%81%96%E8%AA%95%E8%80%81%E5%85%AC%E5%85%AC+%E7%B9%AA%E6%9C%AC' },
+            { day: 3, type: 'song', title: '經典旋律', content: 'Jingle Bells (爵士版) - 感受輕鬆愉快的節日氛圍。', link: 'https://www.youtube.com/results?search_query=jingle+bells+jazz' },
+            { day: 4, type: 'riddle', title: '聖誕謎語猜猜看 (1)', content: '牠跑得快、拉雪橇，住在北國不怕冷；有首歌讓牠鼻子亮，你知道牠叫什麼名字？', answer: '魯道夫 (馴鹿)' },
+            { day: 5, type: 'fact', title: '聖誕老人原型', content: '聖誕老人的原型是西元 270 年的聖尼古拉 (Saint Nicholas) 主教。他以慷慨、暗中送禮和幫助貧困家庭而聞名。' },
+            { day: 6, type: 'quote', title: '給你的鼓勵', content: '在這個季節，記得善待自己，你比想像中更棒。' },
+            { day: 7, type: 'video', title: '聖誕節由來動畫', content: '一起來看看聖誕節的起源故事吧！', link: 'https://www.youtube.com/results?search_query=%E8%81%96%E8%AA%95%E7%AF%80%E7%94%B1%E4%BE%86+%E5%8B%95%E7%95%AB' },
+            { day: 8, type: 'fact', title: '為什麼是紅色？', content: '現代聖誕老人的紅色形象，很大程度是因為 1930 年代可口可樂的廣告喔！' },
+            { day: 9, type: 'book', title: '繪本推薦：一個不能沒有禮物的日子', content: '小熊的爸爸失業了，今年聖誕節可能沒有禮物。但他們發現，原來愛和陪伴才是最珍貴的禮物。', link: 'https://www.google.com/search?q=%E4%B8%80%E5%80%8B%E4%B8%8D%E8%83%BD%E6%B2%92%E6%9C%89%E7%A6%AE%E7%89%A9%E7%9A%84%E6%97%A5%E5%AD%90+%E7%B9%AA%E6%9C%AC' },
+            { day: 10, type: 'song', title: '歡樂頌', content: 'All I Want for Christmas Is You - 聖誕節必聽的經典金曲！', link: 'https://www.youtube.com/results?search_query=all+i+want+for+christmas+is+you' },
+            { day: 11, type: 'quote', title: '分享愛', content: '愛是唯一越分享越多的東西。' },
+            { day: 12, type: 'riddle', title: '聖誕謎語猜猜看 (2)', content: '什麼東西有身體沒有頭，有袖子沒有手，聖誕節時會掛在壁爐口？', answer: '聖誕襪' },
+            { day: 13, type: 'song', title: '寧靜之夜', content: 'Silent Night - 享受片刻的寧靜與祥和。', link: 'https://www.youtube.com/results?search_query=silent+night' },
+            { day: 14, type: 'quote', title: '堅持', content: '就像聖誕樹在冬天依然常青，你的堅韌也是如此美麗。' },
+            { day: 15, type: 'fact', title: 'Xmas 的由來', content: 'Xmas 的 X 代表希臘字母 Chi，是基督 (Christ) 的縮寫，這是一個古老的傳統寫法。' },
+            { day: 16, type: 'video', title: '有趣的聖誕動畫', content: '來點輕鬆有趣的聖誕主題動畫短片吧！', link: 'https://www.youtube.com/results?search_query=funny+christmas+animated+short' },
+            { day: 17, type: 'quote', title: '關於給予', content: '手心向下給予的人，往往比手心向上索取的人更快樂。' },
+            { day: 18, type: 'fact', title: '聖誕卡片', content: '世界上第一張商業聖誕卡片是在 1843 年於倫敦發行的。' },
+            { day: 19, type: 'song', title: '復古聖誕', content: 'White Christmas - 夢想著一個銀白色的聖誕節。', link: 'https://www.youtube.com/results?search_query=white+christmas+bing+crosby' },
+            { day: 20, type: 'quote', title: '勇氣', content: '新的一年即將到來，帶著勇氣去擁抱未知的冒險吧！' },
+            { day: 21, type: 'fact', title: '薑餅人歷史', content: '伊麗莎白一世女王是第一個讓薑餅變成人物形狀的人，用來送給賓客。' },
+            { day: 22, type: 'song', title: '搖滾聖誕', content: 'Jingle Bell Rock - 一起來搖滾一下！', link: 'https://www.youtube.com/results?search_query=jingle+bell+rock' },
+            { day: 23, type: 'quote', title: '平靜', content: '願這個節日帶給你內心深處的平靜與喜悅。' },
+            { day: 24, type: 'quote', title: '平安夜', content: '今晚，只要有愛的人在身邊，就是最棒的聖誕節。' },
+            { day: 25, type: 'special', title: '🎄 聖誕快樂！ 🎄', content: 'Ho Ho Ho! 恭喜你完成了倒數！願你的每一個願望都成真，聖誕快樂！' }
+        ];
+
+        let realOpenedDays = JSON.parse(localStorage.getItem('openedDays')) || [];
+        let testOpenedDays = JSON.parse(localStorage.getItem('testOpenedDays')) || [];
+        let wishes = JSON.parse(localStorage.getItem('wishes')) || [];
+
+        // 刪除相關變數
+        let deleteTargetIndex = null;
+
+        const grid = document.getElementById('calendar-grid');
+        const modal = document.getElementById('gift-modal');
+        const confirmModal = document.getElementById('confirm-modal');
+        const demoCheckbox = document.getElementById('demoMode');
+        const strictCheckbox = document.getElementById('strictMode');
+        const wishInput = document.getElementById('wish-input');
+        const wishList = document.getElementById('wish-list');
+        const loadingMask = document.getElementById('loading-mask');
+
+        const decorations = [
+            { icon: 'fa-candy-cane', color: 'text-red-500' },
+            { icon: 'fa-gift', color: 'text-blue-500' },
+            { icon: 'fa-star', color: 'text-yellow-400' },
+            { icon: 'fa-holly-berry', color: 'text-green-600' },
+            { icon: 'fa-snowflake', color: 'text-blue-300' },
+            { icon: 'fa-bell', color: 'text-yellow-500' },
+            { icon: 'fa-cookie', color: 'text-yellow-700' },
+            { icon: 'fa-mitten', color: 'text-red-400' }
+        ];
+
+        function init() {
+            renderGrid();
+            renderTree();
+            checkSanta();
+            renderWishes();
+        }
+
+        // 判斷某一天是否已開啟
+        function isDayOpened(day) {
+            const isDemo = demoCheckbox.checked;
+            if (isDemo) {
+                // 測試模式：顯示 真實+測試
+                return realOpenedDays.includes(day) || testOpenedDays.includes(day);
+            } else {
+                // 正常/倒數模式：只顯示 真實
+                return realOpenedDays.includes(day);
+            }
+        }
+
+        function renderGrid() {
+            grid.innerHTML = '';
+            adventData.forEach((item, index) => {
+                const day = item.day;
+                const isOpened = isDayOpened(day);
+
+                const deco = decorations[index % decorations.length];
+                const decoPos = ['deco-tl', 'deco-tr', 'deco-bl', 'deco-br'][index % 4];
+
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = `perspective-1000 h-28 md:h-32`;
+                const card = document.createElement('div');
+                card.className = `card card-inner w-full h-full transition-all duration-500 rounded-2xl ${isOpened ? 'opened' : ''}`;
+                card.id = `day-${day}`;
+
+                const front = document.createElement('div');
+                front.className = `card-front flex flex-col items-center justify-center bg-white rounded-2xl shadow-md border-b-4 border-yellow-200 hover:border-yellow-300 group overflow-hidden`;
+                front.innerHTML = `
+                    <i class="fas ${deco.icon} card-decoration ${decoPos} ${deco.color} opacity-20 group-hover:opacity-40 transition-opacity"></i>
+                    <span class="text-3xl font-bold text-red-500 group-hover:scale-110 transition-transform z-10">${day}</span>
+                    ${day === 25 ? '<i class="fas fa-star text-yellow-400 mt-1 z-10"></i>' : ''}
+                `;
+
+                const back = document.createElement('div');
+                back.className = 'card-back bg-yellow-100 rounded-2xl flex items-center justify-center border-2 border-yellow-300';
+                let iconClass = 'fa-gift';
+                if (item.type === 'song') iconClass = 'fa-music';
+                if (item.type === 'quote') iconClass = 'fa-heart';
+                if (item.type === 'fact') iconClass = 'fa-lightbulb';
+                if (item.type === 'book') iconClass = 'fa-book-open';
+                if (item.type === 'video') iconClass = 'fa-video';
+                if (item.type === 'riddle') iconClass = 'fa-question-circle';
+                if (day === 25) iconClass = 'fa-sleigh';
+                back.innerHTML = `<i class="fas ${iconClass} text-3xl text-red-500"></i>`;
+
+                card.appendChild(front);
+                card.appendChild(back);
+                cardWrapper.appendChild(card);
+                cardWrapper.addEventListener('click', () => handleCardClick(item, card));
+                grid.appendChild(cardWrapper);
+            });
+            updateLockedStates();
+        }
+
+        function updateLockedStates() {
+            const isDemo = demoCheckbox.checked;
+            const actualMonth = new Date().getMonth() + 1;
+            const actualDay = new Date().getDate();
+
+            adventData.forEach(item => {
+                const card = document.getElementById(`day-${item.day}`);
+                if (!card) return;
+
+                const isDateValid = (actualMonth === 12 && actualDay >= item.day);
+                const isUnlockable = isDemo || isDateValid;
+
+                if (!isUnlockable && !isDayOpened(item.day)) {
+                    card.classList.add('disabled');
+                } else {
+                    card.classList.remove('disabled');
+                }
+            });
+        }
+
+        function handleCardClick(item, cardElement) {
+            const isDemo = demoCheckbox.checked;
+            const isStrict = strictCheckbox.checked;
+            const actualMonth = new Date().getMonth() + 1;
+            const actualDay = new Date().getDate();
+            const isOpenedAlready = isDayOpened(item.day);
+
+            // 1. 日期檢查
+            const isDateValid = (actualMonth === 12 && actualDay >= item.day);
+            const isUnlockable = isDemo || isDateValid;
+
+            if (!isUnlockable && !isOpenedAlready) {
+                shakeCard(cardElement);
+                alert("還沒到這一天喔！請耐心等待，或者開啟上方的「測試模式」來預覽。");
+                return;
+            }
+
+            // 2. 嚴格模式檢查
+            if (isStrict && !isDemo && !isOpenedAlready) {
+                const lastOpen = localStorage.getItem('lastOpenDate');
+                const todayStr = new Date().toDateString();
+
+                if (lastOpen === todayStr) {
+                    shakeCard(cardElement);
+                    alert("每天只能打開一個驚喜喔！貪多嚼不爛～明天再來吧！🎁");
+                    return;
+                }
+            }
+
+            // 3. 開啟
+            openModal(item);
+
+            if (!isOpenedAlready) {
+                if (isDemo) {
+                    testOpenedDays.push(item.day);
+                    localStorage.setItem('testOpenedDays', JSON.stringify(testOpenedDays));
+                } else {
+                    realOpenedDays.push(item.day);
+                    localStorage.setItem('openedDays', JSON.stringify(realOpenedDays));
+
+                    if (isStrict) {
+                        localStorage.setItem('lastOpenDate', new Date().toDateString());
+                    }
+                }
+                cardElement.classList.add('opened');
+                addOrnamentToTree();
+                checkSanta();
+            }
+        }
+
+        function shakeCard(card) {
+            card.parentElement.classList.add('animate-pulse');
+            setTimeout(() => card.parentElement.classList.remove('animate-pulse'), 500);
+        }
+
+        function openModal(item) {
+            const modalTitle = document.getElementById('modal-title');
+            const modalIcon = document.getElementById('modal-icon');
+            const modalContent = document.getElementById('modal-content');
+            const modalAction = document.getElementById('modal-action');
+            const bookContent = document.getElementById('book-content');
+            const riddleContent = document.getElementById('riddle-content');
+
+            modalTitle.innerText = item.title;
+            modalContent.innerText = item.content;
+
+            modalAction.classList.add('hidden');
+            bookContent.classList.add('hidden');
+            riddleContent.classList.add('hidden');
+            modalContent.classList.remove('hidden');
+
+            let iconHtml = '<i class="fas fa-gift"></i>';
+            if (item.type === 'song' || item.type === 'video') {
+                iconHtml = item.type === 'song' ? '<i class="fas fa-music"></i>' : '<i class="fas fa-video"></i>';
+                modalAction.classList.remove('hidden');
+                modalAction.querySelector('a').href = item.link;
+            } else if (item.type === 'quote') {
+                iconHtml = '<i class="fas fa-heart text-pink-500"></i>';
+            } else if (item.type === 'fact') {
+                iconHtml = '<i class="fas fa-lightbulb text-yellow-500"></i>';
+            } else if (item.day === 25) {
+                iconHtml = '<i class="fas fa-sleigh text-red-600"></i>';
+            } else if (item.type === 'book') {
+                iconHtml = '<i class="fas fa-book text-green-600"></i>';
+                modalContent.classList.add('hidden');
+                bookContent.classList.remove('hidden');
+                document.getElementById('book-desc').innerText = item.content;
+                document.getElementById('book-link').href = item.link;
+            } else if (item.type === 'riddle') {
+                iconHtml = '<i class="fas fa-question-circle text-blue-500"></i>';
+                modalContent.classList.add('hidden');
+                riddleContent.classList.remove('hidden');
+                document.getElementById('riddle-question').innerText = item.content;
+                document.getElementById('riddle-answer').innerText = item.answer;
+                document.getElementById('riddle-answer').classList.add('hidden');
+            }
+            modalIcon.innerHTML = iconHtml;
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function toggleAnswer() {
+            document.getElementById('riddle-answer').classList.toggle('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function closeConfirmModal() {
+            confirmModal.classList.add('hidden');
+            deleteTargetIndex = null;
+        }
+
+        // 許願功能
+        function addWish() {
+            const wishText = wishInput.value.trim();
+            if (wishText) {
+                wishes.push(wishText);
+                localStorage.setItem('wishes', JSON.stringify(wishes));
+                wishInput.value = '';
+                renderWishes();
+                addOrnamentToTree(true);
+            }
+        }
+
+        // 觸發刪除確認 (綁定在垃圾桶按鈕)
+        window.promptDeleteWish = function (index) {
+            deleteTargetIndex = index;
+            confirmModal.classList.remove('hidden');
+        }
+
+        // 執行刪除 (綁定在 Modal 確認按鈕)
+        window.executeDelete = function () {
+            if (deleteTargetIndex !== null) {
+                wishes.splice(deleteTargetIndex, 1);
+                localStorage.setItem('wishes', JSON.stringify(wishes));
+                renderWishes();
+                closeConfirmModal();
+            }
+        }
+
+        function renderWishes() {
+            wishList.innerHTML = wishes.map((wish, index) => `
+                <li class="bg-yellow-50 px-3 py-2 rounded-lg border border-yellow-200 flex items-center justify-between group hover:bg-yellow-100 transition-colors">
+                    <div class="flex items-start flex-1 mr-2">
+                        <i class="fas fa-star text-yellow-400 mt-1 mr-2 flex-shrink-0"></i>
+                        <span class="break-all">${wish}</span>
+                    </div>
+                    <button onclick="window.promptDeleteWish(${index})" class="delete-btn text-gray-400 p-1" title="刪除願望" data-html2canvas-ignore="true">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </li>
+            `).join('');
+            wishList.scrollTop = wishList.scrollHeight;
+        }
+
+        function renderTree() {
+            const currentOpenedCount = document.querySelectorAll('.card.opened').length;
+            document.getElementById('ornament-count').innerText = currentOpenedCount;
+            const ornaments = document.querySelectorAll('.ornament');
+            ornaments.forEach(o => o.remove());
+            for (let i = 0; i < currentOpenedCount; i++) createOrnament();
+        }
+
+        function addOrnamentToTree(isGoldenStar = false) {
+            createOrnament(isGoldenStar);
+            // 更新計數
+            const currentOpenedCount = document.querySelectorAll('.card.opened').length;
+            document.getElementById('ornament-count').innerText = currentOpenedCount;
+        }
+
+        function createOrnament(isGoldenStar = false) {
+            const container = document.getElementById('tree-container');
+            const ornament = document.createElement('div');
+            if (isGoldenStar) {
+                ornament.className = 'ornament fa fa-star text-yellow-300 text-lg';
+                ornament.style.backgroundColor = 'transparent';
+                ornament.style.boxShadow = 'none';
+                ornament.style.textShadow = '0 0 5px #fcd34d';
+            } else {
+                ornament.className = 'ornament';
+                const colors = ['#ef4444', '#eab308', '#3b82f6', '#a855f7', '#ec4899', '#ffffff'];
+                ornament.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            }
+            const treeHeight = 230;
+            const treeWidthBase = 160;
+            const yPos = Math.random() * (treeHeight - 20) + 10;
+            const maxHalfWidth = (treeWidthBase / 2) * (1 - yPos / treeHeight);
+            const xOffset = (Math.random() * 2 - 1) * maxHalfWidth;
+            ornament.style.bottom = (yPos + 40) + 'px';
+            ornament.style.left = `calc(50% + ${xOffset}px)`;
+            container.appendChild(ornament);
+        }
+
+        function checkSanta() {
+            const is25Opened = isDayOpened(25);
+            if (is25Opened) {
+                document.getElementById('santa-claus').classList.add('show');
+                createSnow();
+            } else {
+                document.getElementById('santa-claus').classList.remove('show');
+            }
+        }
+
+        function createSnow() {
+            if (window.snowInterval) return;
+            window.snowInterval = setInterval(() => {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.innerHTML = '❄';
+                snowflake.style.left = Math.random() * 100 + 'vw';
+                snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+                document.body.appendChild(snowflake);
+                setTimeout(() => snowflake.remove(), 5000);
+            }, 200);
+        }
+
+        function captureScreenshot() {
+            loadingMask.classList.remove('hidden');
+            html2canvas(document.body, {
+                useCORS: true,
+                ignoreElements: (element) => element.getAttribute('data-html2canvas-ignore') === 'true'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `我的聖誕倒數月曆_${new Date().toISOString().slice(0, 10)}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                loadingMask.classList.add('hidden');
+            }).catch(err => {
+                console.error("截圖失敗:", err);
+                alert("截圖發生錯誤，請稍後再試。");
+                loadingMask.classList.add('hidden');
+            });
+        }
+
+        // 事件監聽
+        demoCheckbox.addEventListener('change', () => {
+            if (demoCheckbox.checked) strictCheckbox.checked = false;
+            renderGrid();
+            renderTree();
+            checkSanta();
+        });
+
+        strictCheckbox.addEventListener('change', () => {
+            if (strictCheckbox.checked) demoCheckbox.checked = false;
+            renderGrid();
+            renderTree();
+            checkSanta();
+        });
+
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        confirmModal.addEventListener('click', (e) => { if (e.target === confirmModal) closeConfirmModal(); });
+        wishInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') addWish(); });
+
+        init();
+    </script>
+</body>
+
+</html>
