@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        <title>現在還有人在寫blog嗎！？</title>
-        <link>https://cosecanttw.github.io/</link>
-        <description>Recent content on 現在還有人在寫blog嗎！？</description>
+        <title>Posts on 現在還有人在寫blog嗎！？</title>
+        <link>https://cosecanttw.github.io/post/</link>
+        <description>Recent content in Posts on 現在還有人在寫blog嗎！？</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-TW</language>
-        <lastBuildDate>Mon, 12 Jan 2026 21:50:37 +0800</lastBuildDate><atom:link href="https://cosecanttw.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 12 Jan 2026 21:50:37 +0800</lastBuildDate><atom:link href="https://cosecanttw.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>用AI做了第一個小工具：多語言常用旅遊單字表 - Created My First Tool With AI</title>
         <link>https://cosecanttw.github.io/post/created_travel_vocabulary_tool/</link>
         <pubDate>Mon, 12 Jan 2026 21:50:37 +0800</pubDate>

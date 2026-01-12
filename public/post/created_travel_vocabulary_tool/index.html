@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-TW" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="前言 我最近在準備一個旅遊行程，需要準備一些常用的旅遊單字表。 我原本是打算用Excel來做這個事情，但是這樣子很不方便，所以我就想用AI來做這個事情。 我用ChatGPT來做這個事情，但是ChatGPT的API是需要付錢的，所以我就想用Hugging Face來做這個事情。 我用Hugging Face來做這個事情，但是Hugging Face的API是需要付錢的，所以我就想用Google Cloud來做這個事情。 我用Google Cloud來做這個事情，但是Google Cloud的API是需要付錢的，所以我就想用Google Colab來做這個事情。\n以上是AI自動幫我打的，根本沒這回事啦！\n事情是這樣的 在去了很多次日本之後，今年的寒假我們因為某個原因要改去韓國玩啦！我個人的英日語程度在旅行時是夠用的，但是韓語就一直停留在跟著老婆看韓劇學來的基礎上＋Duolingo過沒幾關的水準。相信很多人跟我一樣，很喜歡有機會學一些其他語言的基礎發音和單字，於是趁這機會，當然要稍微認真一點，再多學一些韓語。\n（我知道現在大家都用ChatGPT翻譯了啦，但是自己學起來的感覺不一樣啊。）\n但是我查了一下發現，網路上的單字表只有三種來源：\n圖檔或者PDF檔，用起來很麻煩而且很多根本沒發音（pdf我連下載來確認都不想） 廣告用的文章，雖然是網頁形式也有發音，但是單字表上下都是廣告，還會附帶一堆很長的文章推薦你用他們家的app。 完整的語言學習app，大部分是循序漸進，而且大概都要錢 結果最有用的，可能還是圖書館借來的實體書！ 開什麼玩笑，這不是網路科技人工智慧爆發的時代嗎？\n所以我就自己（跟AI一起）做了一個。\n連結在這裡。 Code放在這裡。\n全靜態網頁，沒有後端，TTS直接用瀏覽器內建的，程式的部分大概一小時就完成了，後面兩小時根本都在調單字資料庫（汗）。工具只有Google Antigravity + Gemini Pro，沒了，沒有ChatGPT也沒有Claude Code。\n可以自由Fork去加語言或單字，然後deploy到自己的github pages上自用喔，就這樣，我們下次見。\n">
+<title>用AI做了第一個小工具：多語言常用旅遊單字表 - Created My First Tool With AI</title>
+
+<link rel='canonical' href='https://cosecanttw.github.io/post/created_travel_vocabulary_tool/'>
+
+<link rel="stylesheet" href="/scss/style.min.6a692fd055deae459f2a9767f57f3855ba80cafd5041317f24f7360f6ca47cdf.css"><meta property='og:title' content="用AI做了第一個小工具：多語言常用旅遊單字表 - Created My First Tool With AI">
+<meta property='og:description' content="前言 我最近在準備一個旅遊行程，需要準備一些常用的旅遊單字表。 我原本是打算用Excel來做這個事情，但是這樣子很不方便，所以我就想用AI來做這個事情。 我用ChatGPT來做這個事情，但是ChatGPT的API是需要付錢的，所以我就想用Hugging Face來做這個事情。 我用Hugging Face來做這個事情，但是Hugging Face的API是需要付錢的，所以我就想用Google Cloud來做這個事情。 我用Google Cloud來做這個事情，但是Google Cloud的API是需要付錢的，所以我就想用Google Colab來做這個事情。\n以上是AI自動幫我打的，根本沒這回事啦！\n事情是這樣的 在去了很多次日本之後，今年的寒假我們因為某個原因要改去韓國玩啦！我個人的英日語程度在旅行時是夠用的，但是韓語就一直停留在跟著老婆看韓劇學來的基礎上＋Duolingo過沒幾關的水準。相信很多人跟我一樣，很喜歡有機會學一些其他語言的基礎發音和單字，於是趁這機會，當然要稍微認真一點，再多學一些韓語。\n（我知道現在大家都用ChatGPT翻譯了啦，但是自己學起來的感覺不一樣啊。）\n但是我查了一下發現，網路上的單字表只有三種來源：\n圖檔或者PDF檔，用起來很麻煩而且很多根本沒發音（pdf我連下載來確認都不想） 廣告用的文章，雖然是網頁形式也有發音，但是單字表上下都是廣告，還會附帶一堆很長的文章推薦你用他們家的app。 完整的語言學習app，大部分是循序漸進，而且大概都要錢 結果最有用的，可能還是圖書館借來的實體書！ 開什麼玩笑，這不是網路科技人工智慧爆發的時代嗎？\n所以我就自己（跟AI一起）做了一個。\n連結在這裡。 Code放在這裡。\n全靜態網頁，沒有後端，TTS直接用瀏覽器內建的，程式的部分大概一小時就完成了，後面兩小時根本都在調單字資料庫（汗）。工具只有Google Antigravity + Gemini Pro，沒了，沒有ChatGPT也沒有Claude Code。\n可以自由Fork去加語言或單字，然後deploy到自己的github pages上自用喔，就這樣，我們下次見。\n">
+<meta property='og:url' content='https://cosecanttw.github.io/post/created_travel_vocabulary_tool/'>
+<meta property='og:site_name' content='現在還有人在寫blog嗎！？'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-01-12T21:50:37&#43;08:00'/><meta property='article:modified_time' content='2026-01-12T21:50:37&#43;08:00'/>
+<meta name="twitter:title" content="用AI做了第一個小工具：多語言常用旅遊單字表 - Created My First Tool With AI">
+<meta name="twitter:description" content="前言 我最近在準備一個旅遊行程，需要準備一些常用的旅遊單字表。 我原本是打算用Excel來做這個事情，但是這樣子很不方便，所以我就想用AI來做這個事情。 我用ChatGPT來做這個事情，但是ChatGPT的API是需要付錢的，所以我就想用Hugging Face來做這個事情。 我用Hugging Face來做這個事情，但是Hugging Face的API是需要付錢的，所以我就想用Google Cloud來做這個事情。 我用Google Cloud來做這個事情，但是Google Cloud的API是需要付錢的，所以我就想用Google Colab來做這個事情。\n以上是AI自動幫我打的，根本沒這回事啦！\n事情是這樣的 在去了很多次日本之後，今年的寒假我們因為某個原因要改去韓國玩啦！我個人的英日語程度在旅行時是夠用的，但是韓語就一直停留在跟著老婆看韓劇學來的基礎上＋Duolingo過沒幾關的水準。相信很多人跟我一樣，很喜歡有機會學一些其他語言的基礎發音和單字，於是趁這機會，當然要稍微認真一點，再多學一些韓語。\n（我知道現在大家都用ChatGPT翻譯了啦，但是自己學起來的感覺不一樣啊。）\n但是我查了一下發現，網路上的單字表只有三種來源：\n圖檔或者PDF檔，用起來很麻煩而且很多根本沒發音（pdf我連下載來確認都不想） 廣告用的文章，雖然是網頁形式也有發音，但是單字表上下都是廣告，還會附帶一堆很長的文章推薦你用他們家的app。 完整的語言學習app，大部分是循序漸進，而且大概都要錢 結果最有用的，可能還是圖書館借來的實體書！ 開什麼玩笑，這不是網路科技人工智慧爆發的時代嗎？\n所以我就自己（跟AI一起）做了一個。\n連結在這裡。 Code放在這裡。\n全靜態網頁，沒有後端，TTS直接用瀏覽器內建的，程式的部分大概一小時就完成了，後面兩小時根本都在調單字資料庫（汗）。工具只有Google Antigravity + Gemini Pro，沒了，沒有ChatGPT也沒有Claude Code。\n可以自由Fork去加語言或單字，然後deploy到自己的github pages上自用喔，就這樣，我們下次見。\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column compact"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_f509edb42ecc0ebd.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">現在還有人在寫blog嗎！？</a></h1>
+            <h2 class="site-description"></h2>
+        </div>
+    </header><ol class="menu" id="main-menu">
+        
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>Dark Mode</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/post/created_travel_vocabulary_tool/">用AI做了第一個小工具：多語言常用旅遊單字表 - Created My First Tool With AI</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Jan 12, 2026</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    1 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="前言">前言
+</h2><p><del>我最近在準備一個旅遊行程，需要準備一些常用的旅遊單字表。</del>
+<del>我原本是打算用Excel來做這個事情，但是這樣子很不方便，所以我就想用AI來做這個事情。</del>
+<del>我用ChatGPT來做這個事情，但是ChatGPT的API是需要付錢的，所以我就想用Hugging Face來做這個事情。</del>
+<del>我用Hugging Face來做這個事情，但是Hugging Face的API是需要付錢的，所以我就想用Google Cloud來做這個事情。</del>
+<del>我用Google Cloud來做這個事情，但是Google Cloud的API是需要付錢的，所以我就想用Google Colab來做這個事情。</del></p>
+<p><em>以上是AI自動幫我打的，根本沒這回事啦！</em></p>
+<h2 id="事情是這樣的">事情是這樣的
+</h2><p>在去了很多次日本之後，今年的寒假我們因為某個原因要改去韓國玩啦！我個人的英日語程度在旅行時是夠用的，但是韓語就一直停留在跟著老婆看韓劇學來的基礎上＋Duolingo過沒幾關的水準。相信很多人跟我一樣，很喜歡有機會學一些其他語言的基礎發音和單字，於是趁這機會，當然要稍微認真一點，再多學一些韓語。</p>
+<p>（我知道現在大家都用ChatGPT翻譯了啦，但是自己學起來的感覺不一樣啊。）</p>
+<p>但是我查了一下發現，網路上的單字表只有三種來源：</p>
+<ol>
+<li>圖檔或者PDF檔，用起來很麻煩而且很多根本沒發音（pdf我連下載來確認都不想）</li>
+<li>廣告用的文章，雖然是網頁形式也有發音，但是單字表上下都是廣告，還會附帶一堆很長的文章推薦你用他們家的app。</li>
+<li>完整的語言學習app，大部分是循序漸進，而且大概都要錢</li>
+</ol>
+<p>結果最有用的，可能還是圖書館借來的實體書！
+開什麼玩笑，這不是網路科技人工智慧爆發的時代嗎？</p>
+<p>所以我就自己（跟AI一起）做了一個。</p>
+<p>連結在<a class="link" href="https://cosecanttw.github.io/travel_vocabulary_tts.html"  target="_blank" rel="noopener"
+    >這裡</a>。
+Code放在<a class="link" href="https://github.com/cosecantTW/travel_vocab_tts"  target="_blank" rel="noopener"
+    >這裡</a>。</p>
+<p>全靜態網頁，沒有後端，TTS直接用瀏覽器內建的，程式的部分大概一小時就完成了，後面兩小時根本都在調單字資料庫（汗）。工具只有Google Antigravity + Gemini Pro，沒了，沒有ChatGPT也沒有Claude Code。</p>
+<p>可以自由Fork去加語言或單字，然後deploy到自己的github pages上自用喔，就這樣，我們下次見。</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2026 現在還有人在寫blog嗎！？
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.31.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.1e9a3bafd846ced4c345d084b355fb8c7bae75701c338f8a1f8a82c780137826.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
