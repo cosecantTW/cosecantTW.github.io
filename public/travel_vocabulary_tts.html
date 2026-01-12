@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隨身旅遊詞彙語音卡</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            padding-top: 100px;
+            /* 增加 Header 空間 */
+            padding-bottom: 40px;
+        }
+
+        /* 1. Header 設定 */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            box-sizing: border-box;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .lang-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 增加 Select 寬度與 RWD */
+        select {
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 1rem;
+            background-color: #fff;
+            min-width: 150px;
+            /* 寬度加寬 */
+            max-width: 100%;
+        }
+
+        .arrow {
+            font-weight: bold;
+            color: var(--text-sub);
+        }
+
+        /* 內容容器 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* 側邊導覽列 (預設隱藏，桌機顯示) */
+        .sidebar {
+            display: none;
+            position: fixed;
+            top: 120px;
+            left: calc(50% + 420px);
+            /* 位於 container 右側 */
+            width: 180px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            max-height: calc(100vh - 150px);
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar a:hover {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* 2. 分類 (Details) */
+        details {
+            background: var(--card-bg);
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            scroll-margin-top: 110px;
+            /* 配合 Header 高度 */
+        }
+
+        summary {
+            padding: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            background-color: #f1f5f9;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--text-sub);
+        }
+
+        details[open] summary::after {
+            content: '-';
+        }
+
+        /* 列表項目 */
+        .item-row {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border);
+            padding: 20px;
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        /* 來源語言區塊 */
+        .source-section {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .source-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        /* 移除來源語言拼音 (User Request 4) */
+        .source-phonetic {
+            display: none;
+        }
+
+        /* 目標語言區塊 */
+        .target-group {
+            margin-top: 8px;
+            padding-left: 10px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .target-main-row {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .target-text {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* 3. 獨立的拼音與註解 */
+        .meta-info {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .target-phonetic {
+            font-size: 0.95rem;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .note-tag {
+            font-size: 0.8rem;
+            background: #ffe4e6;
+            color: #be123c;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* 4. 加大的按鈕群組 */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex: 1;
+            /* 按鈕平分寬度 */
+            transition: transform 0.1s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-speak {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-search {
+            background-color: #f3f4f6;
+            color: #475569;
+        }
+
+        .icon {
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 600px) {
+            .header-title {
+                display: none;
+            }
+        }
+
+        /* FAB 按鈕 (僅低於 1200px 顯示) */
+        .fab-menu {
+            display: none;
+        }
+
+        @media (max-width: 1199px) {
+            .fab-menu {
+                display: flex;
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                width: 56px;
+                height: 56px;
+                background-color: var(--primary);
+                color: white;
+                border-radius: 50%;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+                z-index: 2000;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+
+            .fab-menu:active {
+                transform: scale(0.9);
+            }
+
+            .sidebar.mobile-visible {
+                display: block;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                max-width: 300px;
+                max-height: 70vh;
+                z-index: 2001;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+
+            /* 遮罩背景 */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 2000;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+
+        /* RWD: 顯示 Sidebar (Desktop) */
+        @media (min-width: 1200px) {
+            .sidebar {
+                display: block;
+            }
+
+            /* 桌面版隱藏 FAB */
+            .fab-menu {
+                display: none;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .item-row {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+
+            .source-section {
+                width: 35%;
+                border-bottom: none;
+                border-right: 1px solid var(--border);
+                margin-bottom: 0;
+                padding-bottom: 0;
+                padding-right: 15px;
+            }
+
+            .target-wrapper {
+                width: 60%;
+            }
+
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .lang-controls {
+                flex-grow: 1;
+                justify-content: flex-end;
+            }
+
+            select {
+                max-width: 300px;
+                /* 限制最大寬度以免太寬 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1 class="header-title" id="appTitle">隨身旅遊詞彙語音卡</h1>
+        <div class="lang-controls">
+            <select id="srcLangSelect"></select>
+            <span class="arrow">⮕</span>
+            <select id="tgtLangSelect"></select>
+        </div>
+    </header>
+
+    <div class="container" id="app">
+    </div>
+
+    <!-- 引用外部資料檔 (宣告 global variable: window.VOCAB_DATA) -->
+    <script src="travel_vocab.js"></script>
+
+    <script>
+        // === 1. 資料庫設計 (Concept-based) ===
+        // 每個詞彙是一個概念 (concept)，包含四種語言的對應資料
+        // 支援一對多 (array)，例如韓語有兩種數字唸法
+        // === 1. 資料庫設計 (Concept-based) ===
+        // 每個詞彙是一個概念 (concept)，包含四種語言的對應資料
+        // 資料已移至 travel_vocab.js，並透過全域變數 window.VOCAB_DATA 存取
+        // 這樣可以直接在本地 (file://) 開啟，不需要 Web Server
+        let vocabDB = window.VOCAB_DATA || [];
+
+        if (vocabDB.length === 0) {
+            console.error('Vocabulary data empty or not loaded.');
+            alert('無法載入單字資料 (travel_vocab.js)。\n(Failed to load vocabulary data.)');
+        }
+
+        // === 2. 介面在地化字典 (UI Localization) ===
+        const uiStrings = {
+            "zh-TW": {
+                title: "隨身旅遊詞彙語音卡",
+                btnSpeak: "發音",
+                btnSearch: "搜尋",
+                langName: "繁體中文",
+                sectionTitle: "目錄",
+                searchSuffix: " 意思 用法",
+                langs: {
+                    "zh-TW": "繁體中文",
+                    "en-US": "英語",
+                    "ko-KR": "韓語",
+                    "ja-JP": "日語"
+                }
+            },
+            "en-US": {
+                title: "Travel Vocab Audio Card",
+                btnSpeak: "Speak",
+                btnSearch: "Search",
+                langName: "English",
+                sectionTitle: "Sections",
+                searchSuffix: " meaning usage",
+                langs: {
+                    "zh-TW": "Traditional Chinese",
+                    "en-US": "English",
+                    "ko-KR": "Korean",
+                    "ja-JP": "Japanese"
+                }
+            },
+            "ko-KR": {
+                title: "여행 단어장",
+                btnSpeak: "발음",
+                btnSearch: "검색",
+                langName: "한국어",
+                sectionTitle: "목차",
+                searchSuffix: " 뜻 용법",
+                langs: {
+                    "zh-TW": "중국어 번체",
+                    "en-US": "영어",
+                    "ko-KR": "한국어",
+                    "ja-JP": "일본어"
+                }
+            },
+            "ja-JP": {
+                title: "旅行単語帳",
+                btnSpeak: "再生",
+                btnSearch: "検索",
+                langName: "日本語",
+                sectionTitle: "目次",
+                searchSuffix: " 意味 使い方",
+                langs: {
+                    "zh-TW": "中国語 (繁体字)",
+                    "en-US": "英語",
+                    "ko-KR": "韓国語",
+                    "ja-JP": "日本語"
+                }
+            }
+        };
+
+        // 語言列表定義
+        const availableLangs = [
+            { code: "zh-TW", labelKey: "langName" },
+            { code: "en-US", labelKey: "langName" },
+            { code: "ko-KR", labelKey: "langName" },
+            { code: "ja-JP", labelKey: "langName" }
+        ];
+
+        // 初始化設定
+        const srcSelect = document.getElementById('srcLangSelect');
+        const tgtSelect = document.getElementById('tgtLangSelect');
+        const app = document.getElementById('app');
+        const appTitle = document.getElementById('appTitle');
+
+        // 預設語言
+        let currentSrc = "zh-TW";
+        let currentTgt = "ko-KR";
+
+        // === 3. 核心邏輯函數 ===
+
+        // 初始化語言選單
+        function initLangSelectors() {
+            // 選項內容是動態的，取決於目前介面語言 (UI Language)，這裡暫定 UI 跟隨 Source
+            updateLangOptions();
+
+            srcSelect.value = currentSrc;
+            tgtSelect.value = currentTgt;
+
+            srcSelect.addEventListener('change', (e) => {
+                currentSrc = e.target.value;
+                updateUI(); // 重新渲染整個介面文字
+                renderList(); // 重新渲染列表
+            });
+
+            tgtSelect.addEventListener('change', (e) => {
+                currentTgt = e.target.value;
+                renderList(); // 只重新渲染列表內容
+            });
+        }
+
+        // 更新選單內的文字 (例如在日文模式下，顯示 "韓国語 (한국어)")
+        function updateLangOptions() {
+            const renderOptions = (selectEl) => {
+                selectEl.innerHTML = '';
+                availableLangs.forEach(lang => {
+                    const option = document.createElement('option');
+                    option.value = lang.code;
+
+                    // 格式: 來源語言顯示名稱 (原文名稱)
+                    // e.g. 當 Source=中文: "韓語 (한국어)"
+                    // e.g. 當 Source=English: "Korean (한국어)"
+                    const sourceLangName = uiStrings[currentSrc].langs[lang.code];
+                    const nativeLangName = uiStrings[lang.code].langName;
+
+                    let label = `${sourceLangName} (${nativeLangName})`;
+
+                    option.textContent = label;
+                    selectEl.appendChild(option);
+                });
+            };
+            renderOptions(srcSelect);
+            renderOptions(tgtSelect);
+
+            // 保持選取狀態
+            srcSelect.value = currentSrc;
+            tgtSelect.value = currentTgt;
+        }
+
+        // 更新介面文字 (Header, 按鈕等)
+        function updateUI() {
+            // 1. 設定 HTML Lang 屬性
+            document.documentElement.lang = currentSrc;
+
+            const ui = uiStrings[currentSrc];
+            document.title = ui.title;
+            appTitle.textContent = ui.title;
+
+            // 2. 更新選單選項顯示 (因為依賴 uiStrings[currentSrc])
+            updateLangOptions();
+        }
+
+        // 渲染列表主程式
+        function renderList() {
+            app.innerHTML = '';
+            const ui = uiStrings[currentSrc]; // 取得目前語言的 UI 字串
+
+            vocabDB.forEach(categoryData => {
+                const details = document.createElement('details');
+                details.open = true;
+                // 加入 ID 作為錨點
+                details.id = `cat-${categoryData.id}`;
+
+                const summary = document.createElement('summary');
+                // 取得分類標題的翻譯 (從 vocabDB 取)
+                const catTitle = categoryData.category[currentSrc] || categoryData.category["zh-TW"];
+                summary.textContent = catTitle;
+                details.appendChild(summary);
+
+                categoryData.concepts.forEach(concept => {
+                    const srcItems = concept[currentSrc]; // 來源語言資料 (Array)
+                    const tgtItems = concept[currentTgt]; // 目標語言資料 (Array)
+
+                    if (!srcItems || !tgtItems) return;
+
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+
+                    // --- 來源語言區塊 (左側) ---
+                    const srcSection = document.createElement('div');
+                    srcSection.className = 'source-section';
+
+                    // 顯示所有來源變體 (通常只有一個，但結構支援多個)
+                    srcItems.forEach(item => {
+                        const div = document.createElement('div');
+                        div.innerHTML = `<div class="source-text">${item.text}</div>`;
+                        // 雖然 CSS 隱藏了 .source-phonetic，但這裡還是產生了 DOM
+                        // 如果要完全移除，可以註解掉下面這行，或者保留結構用 CSS 控制
+                        if (item.phonetic) {
+                            div.innerHTML += `<div class="source-phonetic">${item.phonetic}</div>`;
+                        }
+                        srcSection.appendChild(div);
+                    });
+                    row.appendChild(srcSection);
+
+                    // --- 目標語言區塊 (右側) ---
+                    const targetWrapper = document.createElement('div');
+                    targetWrapper.className = 'target-wrapper';
+
+                    tgtItems.forEach(target => {
+                        const targetGroup = document.createElement('div');
+                        targetGroup.className = 'target-group';
+
+                        // 1. 文字與註解
+                        const mainRow = document.createElement('div');
+                        mainRow.className = 'target-main-row';
+
+                        const textSpan = document.createElement('span');
+                        textSpan.className = 'target-text';
+                        textSpan.textContent = target.text;
+                        mainRow.appendChild(textSpan);
+
+                        if (target.note) {
+                            const noteSpan = document.createElement('span');
+                            noteSpan.className = 'note-tag';
+                            // 根據目前來源語言顯示 Note
+                            let noteText = target.note;
+                            // Check if note is a key in global lookup table
+                            if (typeof target.note === 'string' && window.VOCAB_NOTE && window.VOCAB_NOTE[target.note]) {
+                                const noteObj = window.VOCAB_NOTE[target.note];
+                                noteText = noteObj[currentSrc] || noteObj["zh-TW"] || "";
+                            }
+                            // Fallback for legacy object structure (if any remain)
+                            else if (typeof target.note === 'object') {
+                                noteText = target.note[currentSrc] || target.note["zh-TW"] || "";
+                            }
+                            noteSpan.textContent = noteText;
+                            mainRow.appendChild(noteSpan);
+                        }
+                        targetGroup.appendChild(mainRow);
+
+                        // 2. 獨立拼音列 (滿足使用者需求：分開顯示)
+                        if (target.phonetic) {
+                            const metaInfo = document.createElement('div');
+                            metaInfo.className = 'meta-info';
+                            const phoneSpan = document.createElement('span');
+                            phoneSpan.className = 'target-phonetic';
+                            phoneSpan.textContent = target.phonetic;
+                            metaInfo.appendChild(phoneSpan);
+                            targetGroup.appendChild(metaInfo);
+                        }
+
+                        // 3. 操作按鈕 (大按鈕 + Icon + 文字)
+                        const btnGroup = document.createElement('div');
+                        btnGroup.className = 'action-buttons';
+
+                        // 發音按鈕
+                        const speakBtn = document.createElement('button');
+                        speakBtn.className = 'btn-speak';
+                        speakBtn.innerHTML = `<span class="icon">🔊</span> ${ui.btnSpeak}`;
+                        speakBtn.onclick = () => speak(target.text, currentTgt);
+                        btnGroup.appendChild(speakBtn);
+
+                        // 搜尋按鈕
+                        const searchBtn = document.createElement('button');
+                        searchBtn.className = 'btn-search';
+                        searchBtn.innerHTML = `<span class="icon">🔍</span> ${ui.btnSearch}`;
+                        searchBtn.onclick = () => googleSearch(target.text, currentTgt);
+                        btnGroup.appendChild(searchBtn);
+
+                        targetGroup.appendChild(btnGroup);
+                        targetWrapper.appendChild(targetGroup);
+                    });
+
+                    row.appendChild(targetWrapper);
+                    details.appendChild(row);
+                });
+
+                app.appendChild(details);
+            });
+
+            // 每次渲染列表也更新 Sidebar
+            renderSidebar();
+        }
+
+        // 渲染側邊欄
+        function renderSidebar() {
+            // 1. 建立或取得 Overlay
+            let overlay = document.querySelector('.sidebar-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.onclick = () => toggleMobileMenu(false);
+                document.body.appendChild(overlay);
+            }
+
+            // 2. 建立或取得 FAB
+            let fab = document.querySelector('.fab-menu');
+            if (!fab) {
+                fab = document.createElement('div');
+                fab.className = 'fab-menu';
+                fab.innerHTML = '☰'; // Hamburger icon
+                fab.onclick = () => toggleMobileMenu(true);
+                document.body.appendChild(fab);
+            }
+
+            // 3. 檢查 Sidebar
+            let sidebar = document.querySelector('.sidebar');
+            if (!sidebar) {
+                sidebar = document.createElement('div');
+                sidebar.className = 'sidebar';
+                document.body.appendChild(sidebar);
+            }
+
+            sidebar.innerHTML = ''; // Clear existing content
+
+            const title = document.createElement('h3');
+            title.innerHTML = "📍 " + (uiStrings[currentSrc].sectionTitle || 'Sections');
+
+            sidebar.appendChild(title);
+
+            const ul = document.createElement('ul');
+            // ui 變數已經不需要用來取 category name 了
+
+            vocabDB.forEach(cat => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                // 從 vocabDB 取 (cat.category 現在是物件)
+                const catName = cat.category[currentSrc] || cat.category["zh-TW"];
+                a.textContent = catName;
+                a.onclick = () => {
+                    // id 改為 cat.id
+                    const el = document.getElementById(`cat-${cat.id}`);
+                    if (el) {
+                        el.scrollIntoView({ behavior: 'smooth' });
+                        toggleMobileMenu(false); // 點擊後關閉選單
+                    }
+                };
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+
+            sidebar.appendChild(ul);
+        }
+
+        // 切換手機版選單
+        function toggleMobileMenu(show) {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+
+            if (show) {
+                sidebar.classList.add('mobile-visible');
+                overlay.classList.add('active');
+            } else {
+                sidebar.classList.remove('mobile-visible');
+                overlay.classList.remove('active');
+            }
+        }
+
+        // TTS 發音
+        function speak(text, langCode) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = langCode;
+
+            // 針對不同語言微調語速
+            if (langCode === 'ko-KR' || langCode === 'en-US') {
+                utterance.rate = 0.9;
+            } else {
+                utterance.rate = 1.0;
+            }
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Google 搜尋
+        function googleSearch(text, langCode) {
+            // 加上語言關鍵字增加準確度 (使用來源語言的後綴)
+            const suffix = uiStrings[currentSrc].searchSuffix || "";
+
+            const url = `https://www.google.com/search?q=${encodeURIComponent(text + suffix)}`;
+            window.open(url, '_blank');
+        }
+
+        // 啟動
+        // 因改用 <script> 載入，資料已準備好，直接執行初始化
+        initLangSelectors();
+        updateUI(); // 第一次渲染標題與設定 Lang
+        renderList(); // 第一次渲染列表
+
+    </script>
+</body>
+
+</html>
