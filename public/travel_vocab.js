@@ -5,8 +5,8 @@ window.VOCAB_NOTE = {
     "past": { "en-US": "Past", "zh-TW": "過去式", "ko-KR": "과거형", "ja-JP": "過去形" },
     "polite_present": { "en-US": "Polite Present", "zh-TW": "敬語 (現在)", "ko-KR": "존댓말 (현재)", "ja-JP": "丁寧語 (現在)" },
     "polite_past": { "en-US": "Polite Past", "zh-TW": "敬語 (過去)", "ko-KR": "존댓말 (과거)", "ja-JP": "丁寧語 (過去)" },
-    "formal": { "en-US": "Formal Thanks", "zh-TW": "正式", "ko-KR": "공손함", "ja-JP": "公式" },
-    "casual": { "en-US": "Casual Thanks", "zh-TW": "日常", "ko-KR": "친근함", "ja-JP": "日常" },
+    "formal": { "en-US": "Formal", "zh-TW": "正式", "ko-KR": "공손함", "ja-JP": "正式的" },
+    "casual": { "en-US": "Casual", "zh-TW": "日常", "ko-KR": "친근함", "ja-JP": "日常的" },
     "shopping": { "en-US": "Shopping", "zh-TW": "購物用語", "ko-KR": "쇼핑", "ja-JP": "買い物" }
 };
 
@@ -34,12 +34,6 @@ window.VOCAB_DATA = [
                     { "text": "고마워요", "phonetic": "Go-ma-wo-yo", "note": "casual" }
                 ],
                 "ja-JP": [{ "text": "ありがとうございます", "phonetic": "Arigatou gozaimasu" }]
-            },
-            {
-                "zh-TW": [{ "text": "這個多少錢？", "phonetic": "" }],
-                "en-US": [{ "text": "How much is this?", "phonetic": "" }],
-                "ko-KR": [{ "text": "이거 얼마예요?", "phonetic": "I-geo eol-ma-ye-yo?" }],
-                "ja-JP": [{ "text": "いくらですか", "phonetic": "Ikura desu ka" }]
             },
             {
                 "zh-TW": [{ "text": "是", "phonetic": "" }],
@@ -678,6 +672,12 @@ window.VOCAB_DATA = [
             "ja-JP": "買い物"
         },
         "concepts": [
+            {
+                "zh-TW": [{ "text": "這個多少錢？", "phonetic": "" }],
+                "en-US": [{ "text": "How much is this?", "phonetic": "" }],
+                "ko-KR": [{ "text": "이거 얼마예요?", "phonetic": "I-geo eol-ma-ye-yo?" }],
+                "ja-JP": [{ "text": "いくらですか", "phonetic": "Ikura desu ka" }]
+            },
             {
                 "zh-TW": [{ "text": "我可以試穿嗎？", "phonetic": "" }],
                 "en-US": [{ "text": "Can I try this on?", "phonetic": "" }],
